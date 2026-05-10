@@ -8,16 +8,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Regularización Académica</title>
-    <script defer src="./js/libs/Jquery/jquery-4.0.min.js"></script>
-    <script defer src="./js/libs/JustValidate/justValidate.min.js"></script>
+    <script defer src="./assets/js/libs/Jquery/jquery-4.0.min.js"></script>
+    <script defer src="./assets/js/libs/JustValidate/justValidate.min.js"></script>
     
     <link rel="stylesheet" href="./assets/css/theme.scss">
     <link rel="stylesheet" href="./assets/css/libs/bootstrap-5.3.8/bootstrap.css">
-    <script defer src="./js/libs/bootstrap-5.3.8/bootstrap.min.js"></script>
-    <script defer src="./js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
+    <script defer src="./assets/js/libs/bootstrap-5.3.8/bootstrap.min.js"></script>
+    <script defer src="./assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
 
     <link rel="stylesheet" href="./assets/css/index.css">
-    <script defer src="./js/base.js"></script>
+    <script defer src="./assets/js/base.js"></script>
 </head>
 <body>
     <header>
