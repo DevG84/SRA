@@ -17,7 +17,7 @@
     <script defer src="./assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
 
     <link rel="stylesheet" href="./assets/css/index.css">
-    <script defer src="./assets/js/base.js"></script>
+    <script defer src="assets/js/login.js"></script>
 </head>
 <body>
     <header>
