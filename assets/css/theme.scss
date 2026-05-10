@@ -37,12 +37,12 @@ $custom-grey-900: #1B1D1E;
 
 // 2. IMPORTAR FUNCIONES Y VARIABLES INICIALES DE BOOTSTRAP
 // Ajusta estas rutas según tu estructura de carpetas (deben apuntar a los archivos .scss de Bootstrap)
-@import "../css/libs/bootstrap-5.3.8/scss/functions";
-@import "../css/libs/bootstrap-5.3.8/scss/variables";
-@import "../css/libs/bootstrap-5.3.8/scss/variables-dark";
-@import "../css/libs/bootstrap-5.3.8/scss/maps";
-@import "../css/libs/bootstrap-5.3.8/scss/mixins";
-@import "../css/libs/bootstrap-5.3.8/scss/utilities";
+@import "/libs/bootstrap-5.3.8/scss/functions";
+@import "/libs/bootstrap-5.3.8/scss/variables";
+@import "/libs/bootstrap-5.3.8/scss/variables-dark";
+@import "/libs/bootstrap-5.3.8/scss/maps";
+@import "/libs/bootstrap-5.3.8/scss/mixins";
+@import "/libs/bootstrap-5.3.8/scss/utilities";
 
 // 3. MAPAS DE COLORES PERSONALIZADOS
 $blues: (
@@ -85,7 +85,7 @@ $theme-colors: map-merge(
 );
 
 // 5. IMPORTAR EL RESTO DE BOOTSTRAP
-@import "../css/libs/bootstrap-5.3.8/scss/bootstrap";
+@import "/libs/bootstrap-5.3.8/scss/bootstrap";
 
 // 6. CONFIGURACIÓN ESPECÍFICA PARA MODO OSCURO (Bootstrap 5.3+)
 [data-bs-theme="dark"] {

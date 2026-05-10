@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 <head>
@@ -7,13 +11,13 @@
     <script defer src="./js/libs/Jquery/jquery-4.0.min.js"></script>
     <script defer src="./js/libs/JustValidate/justValidate.min.js"></script>
     
-    <link rel="stylesheet" href="./css/theme.scss">
-    <link rel="stylesheet" href="./css/libs/bootstrap-5.3.8/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/theme.scss">
+    <link rel="stylesheet" href="./assets/css/libs/bootstrap-5.3.8/bootstrap.css">
     <script defer src="./js/libs/bootstrap-5.3.8/bootstrap.min.js"></script>
     <script defer src="./js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
 
-    <link rel="stylesheet" href="./css/index.css">
-    <script defer src="./js/index.js"></script>
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <script defer src="./js/base.js"></script>
 </head>
 <body>
     <header>
