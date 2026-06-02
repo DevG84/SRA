@@ -19,12 +19,11 @@
   <!-- Estilos de la vista -->
   <link rel="stylesheet" href="../assets/css/consulta.css">
 </head>
+
+
 <body>
 
-  <!-- ================================================
-       HEADER
-       Contiene: logo, título, botón acceso coordinadores
-  ================================================= -->
+  <!-- HEADER - Contiene: logo, título, botón acceso coordinadores -->
   <header id="header">
     <div class="logo">
         <img src="../assets/img/logo_ipn.png" alt="Logo ESCOM">
@@ -42,9 +41,7 @@
     </a>
   </header>
 
-    <!-- ============================================
-         SECCIÓN DE FILTROS
-    ============================================= -->
+    <!-- SECCIÓN DE FILTROS -->
     <section id="seccion-filtros">
 
       <!-- Fila de selects: Carrera, Semestre, Materia -->
@@ -85,7 +82,7 @@
 
       <hr class="separador">
 
-      <!-- Búsqueda por texto + botón -->
+      <!-- Búsqueda por texto -->
       <div class="row g-3 align-items-end">
         <div class="col-12 col-md-9">
           <label for="input-busqueda">Búsqueda por texto</label>
@@ -106,16 +103,12 @@
 
     </section>
 
-    <!-- ============================================
-         CONTADOR DE RESULTADOS
-    ============================================= -->
+    <!-- CONTADOR DE RESULTADOS -->
     <p id="contador-resultados">
       Mostrando <span id="num-resultados">0</span> resultados
     </p>
 
-    <!-- ============================================
-         GRID DE CARDS
-    ============================================= -->
+    <!-- GRID DE CARDS -->
     <section id="grid-examenes">
       <div class="row g-3" id="contenedor-cards"></div>
       <div id="sin-resultados">
@@ -127,96 +120,38 @@
   <!-- Bootstrap JS -->
   <script src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.min.js"></script>
 
-  <script>
-    // ================================================
-    // DATOS DE PRUEBA (hardcodeados)
-    // TODO: reemplazar con fetch() al endpoint PHP
-    // GET /api/examenes?carrera=&semestre=&materia=
-    // ================================================
-    const examenes = [
-      {
-        id: 1,
-        materia: "Administración de Proyectos",
-        carrera: "ISC - 2009",
-        fecha: "10 de feb de 2026",
-        horario: "8:00 a 10:00 y 14:00 a 16:00",
-        coordinador: "Verónica Agustín Domínguez",
-        correo: "vagustin@ipn.mx",
-        salon: "2106",
-        nota: "",
-        guia: "",
-        proyecto: ""
-      },
-      {
-        id: 2,
-        materia: "Estructuras de Datos",
-        carrera: "ISC - 2020",
-        fecha: "11 de feb de 2026",
-        horario: "8:00 a 10:00",
-        coordinador: "José Antonio Ortiz Ramírez",
-        correo: "jortiz@ipn.mx",
-        salon: "2010",
-        nota: "Revisar tema 5",
-        guia: "",
-        proyecto: ""
-      },
-      {
-        id: 3,
-        materia: "Bases de Datos",
-        carrera: "ISC - 2020",
-        fecha: "12 de feb de 2026",
-        horario: "16:00 a 18:00",
-        coordinador: "María Elena González López",
-        correo: "mgonzalez@ipn.mx",
-        salon: "Lab 3005",
-        nota: "",
-        guia: "Guía en SAPD",
-        proyecto: ""
-      },
-      {
-        id: 4,
-        materia: "Cálculo Diferencial",
-        carrera: "IIA - 2020",
-        fecha: "13 de feb de 2026",
-        horario: "10:00 a 12:00",
-        coordinador: "María Elena González López",
-        correo: "mgonzalez@ipn.mx",
-        salon: "1002",
-        nota: "",
-        guia: "",
-        proyecto: ""
-      },
-      {
-        id: 5,
-        materia: "Introducción a la IA",
-        carrera: "IIA - 2020",
-        fecha: "14 de feb de 2026",
-        horario: "14:00 a 16:00",
-        coordinador: "Verónica Agustín Domínguez",
-        correo: "vagustin@ipn.mx",
-        salon: "2106",
-        nota: "",
-        guia: "",
-        proyecto: "Proyecto en GitHub"
-      },
-      {
-        id: 6,
-        materia: "Redes de Computadoras",
-        carrera: "ISC - 2009",
-        fecha: "15 de feb de 2026",
-        horario: "8:00 a 10:00",
-        coordinador: "José Antonio Ortiz Ramírez",
-        correo: "jortiz@ipn.mx",
-        salon: "2010",
-        nota: "",
-        guia: "Guía en SAPD",
-        proyecto: ""
-      }
-    ];
+  <!-- JQuery -->
+  <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
 
-    // ================================================
-    // FUNCIÓN: Crear HTML de una card de examen
-    // ================================================
+  <!-- JQuery Examenes -->
+  <script> src="../assets/js/libs/JQuery/Consulta.js" </script>
+
+  <script>
+
+    function filtrarExamenes(){
+
+      const carrera = document.getElementById("filtro-carrera").value;
+      const semestre = document.getElementById("filtro-semestre").value;
+      const materia  = document.getElementById("filtro-materia").value;
+      const coord    = document.getElementById("input-busqueda").value.trim();
+
+      $.ajax({
+        url: "../controller/ExamenController.php",
+        method: 'GET',
+        data: { carrera, semestre, materia, coord },
+        dataType: 'json',
+        success: (respuesta) => {
+          cargarCards(respuesta);
+        },
+        error: (xhr) => {
+          cargarCards([]);
+        } 
+      });
+
+    }
+
+    // Crear card de examen
+
     function crearCard(examen) {
       // Campos opcionales — muestra "Sin especificar" si viene vacío
       function campoOpcional(valor) {
@@ -309,10 +244,9 @@
       `;
     }
 
-    // ================================================
-    // FUNCIÓN: Renderizar cards en el DOM
-    // ================================================
-    function renderizarCards(lista) {
+    // CArgar cards de Examenes
+
+    function cargarCards(lista) {
       const contenedor    = document.getElementById("contenedor-cards");
       const sinResultados = document.getElementById("sin-resultados");
       const numResultados = document.getElementById("num-resultados");
@@ -328,37 +262,10 @@
       }
     }
 
-    // ================================================
-    // FUNCIÓN: Filtrar exámenes con los valores actuales
-    // ================================================
-    function filtrarExamenes() {
-      const carrera  = document.getElementById("filtro-carrera").value.toLowerCase();
-      const semestre = document.getElementById("filtro-semestre").value;
-      const materia  = document.getElementById("filtro-materia").value.toLowerCase();
-      const texto    = document.getElementById("input-busqueda").value.toLowerCase().trim();
-
-      const resultado = examenes.filter(examen => {
-        const coincideCarrera = !carrera  || examen.carrera.toLowerCase().includes(carrera);
-        const coincideMateria = !materia  || examen.materia.toLowerCase().includes(materia);
-        const coincideTexto   = !texto    ||
-          examen.materia.toLowerCase().includes(texto)      ||
-          examen.carrera.toLowerCase().includes(texto)      ||
-          examen.coordinador.toLowerCase().includes(texto);
-
-        return coincideCarrera && coincideMateria && coincideTexto;
-      });
-
-      renderizarCards(resultado);
-    }
-
-    // ================================================
     // EVENTOS
-    // ================================================
-    document.getElementById("btn-buscar")
-      .addEventListener("click", filtrarExamenes);
+    document.getElementById("btn-buscar").addEventListener("click", filtrarExamenes);
 
-    document.getElementById("input-busqueda")
-      .addEventListener("keydown", e => {
+    document.getElementById("input-busqueda").addEventListener("keydown", e => {
         if (e.key === "Enter") filtrarExamenes();
       });
 
@@ -366,10 +273,8 @@
       document.getElementById(id).addEventListener("change", filtrarExamenes);
     });
 
-    // ================================================
     // INICIO — cargar todas las cards al abrir la página
-    // ================================================
-    renderizarCards(examenes);
+    filtrarExamenes();
   </script>
 
 </body>

@@ -1,3 +1,3 @@
 <?php
-header('Location: ./public/view/consulta.php');
+header('Location: ./public/view/ConsultaView.php');
 exit();
