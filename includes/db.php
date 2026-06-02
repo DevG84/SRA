@@ -3,7 +3,7 @@ class Connection {
     private $host = "localhost";
     private $nombreBD = "sra_ets";
     private $usuario = "root";
-    private $contraseña = "";
+    private $password = "";
     private $puerto = "3306";
 
     public function connect() {
@@ -11,7 +11,7 @@ class Connection {
             $connection = new PDO(
                 "mysql:host=$this->host;dbname=$this->nombreBD;port=$this->puerto;charset=utf8mb4",
                 $this->usuario,
-                $this->contraseña
+                $this->password
             );
             $connection->setAttribute(
                 PDO::ATTR_ERRMODE,
