@@ -42,11 +42,6 @@
     </a>
   </header>
 
-  <!-- ================================================
-       CONTENIDO PRINCIPAL
-  ================================================= -->
-  <main style="padding: 0 0.75rem;">
-
     <!-- ============================================
          SECCIÓN DE FILTROS
     ============================================= -->
@@ -128,8 +123,6 @@
         <p>No se encontraron exámenes con los filtros seleccionados.</p>
       </div>
     </section>
-
-  </main>
 
   <!-- Bootstrap JS -->
   <script src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.min.js"></script>
