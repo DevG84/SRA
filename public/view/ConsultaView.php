@@ -3,37 +3,44 @@
 // No requiere sesión — accesible para cualquier usuario
 ?>
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- Para mejorar la accesibilidad y responsivo -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta ETS — SRA ESCOM</title>
+
+  <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.min.css">
+
+  <!-- Font Awesome-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <!-- Estilos de la vista -->
   <link rel="stylesheet" href="../assets/css/consulta.css">
-  <link rel="stylesheet" href="../assets/css/theme.scss">
 </head>
 
 
 <body>
+
+  <!-- HEADER - Contiene: logo, título, botón acceso coordinadores -->
   <header id="header">
     <div class="logo">
-        <img src="../assets/img/logo_ipn.png" alt="Logo IPN">
+        <img src="../assets/img/logo_ipn.png" alt="Logo ESCOM">
     </div>
 
     <div class="logo">
         <img src="../assets/img/logo_escom_blanco.png" alt="Logo ESCOM">
     </div>
 
-    <h1 class="h1">Consulta de ETS</h1>
+    <h1>Sistema de Consulta ETS</h1>
 
     <a href="./LoginView.php" id="btn-login">
       <i class="fa-solid fa-right-to-bracket"></i>
       <span>Acceso coordinadores</span>
     </a>
   </header>
-  <main>
+
     <!-- SECCIÓN DE FILTROS -->
     <section id="seccion-filtros">
 
@@ -50,16 +57,16 @@
 
         <div class="col-12 col-md-4">
           <label for="filtro-semestre">Semestre</label>
-          <select id="filtro-semestre" class="form-select-lg form-select">
-            <option class="dropdown-item" value="">Todos los semestres</option>
-            <option class="dropdown-item" value="1">1° semestre</option>
-            <option class="dropdown-item" value="2">2° semestre</option>
-            <option class="dropdown-item" value="3">3° semestre</option>
-            <option class="dropdown-item" value="4">4° semestre</option>
-            <option class="dropdown-item" value="5">5° semestre</option>
-            <option class="dropdown-item" value="6">6° semestre</option>
-            <option class="dropdown-item" value="7">7° semestre</option>
-            <option class="dropdown-item" value="8">8° semestre</option>
+          <select id="filtro-semestre" class="form-select">
+            <option value="">Todos los semestres</option>
+            <option value="1">1° semestre</option>
+            <option value="2">2° semestre</option>
+            <option value="3">3° semestre</option>
+            <option value="4">4° semestre</option>
+            <option value="5">5° semestre</option>
+            <option value="6">6° semestre</option>
+            <option value="7">7° semestre</option>
+            <option value="8">8° semestre</option>
           </select>
         </div>
 
@@ -80,7 +87,6 @@
         <div class="col-12 col-md-9">
           <label for="input-busqueda">Búsqueda por texto</label>
           <input
-                  class="form-control"
             type="text"
             id="input-busqueda"
             placeholder="Buscar por materia, carrera o coordinador"
@@ -114,13 +120,14 @@
 
   <!-- JQuery Examenes -->
   <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
-  </main>
+
   <footer>
-      <div id="footer">
-          <div class="container">
-              <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
-          </div>
-      </div>
-  </footer>
+        <div id="footer">
+        <div class="container">
+            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
+        </div>
+        </div>
+    </footer>
+
 </body>
 </html>
