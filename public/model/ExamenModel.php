@@ -1,5 +1,5 @@
 <?php
-
+// Llamar conexion a BD
 require_once __DIR__ . '/../../includes/db.php';
 class ExamenModel {
     private $db;
@@ -7,6 +7,8 @@ class ExamenModel {
     public function __construct() {
         $this->db = (new Connection)->connect();
     }
+
+    //JOINS necesarios
 
     public function getExamenes($carrera = '', $semestre = '', $materia = '', $coord = '') {
         $sql = "SELECT 
@@ -34,6 +36,8 @@ class ExamenModel {
                 WHERE 1=1";
 
         $params = [];
+
+        // Opciones de filtro
 
         if ($carrera !== '') {
             $sql .= " AND c.id_carrera = :carrera";

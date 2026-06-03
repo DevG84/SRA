@@ -51,7 +51,7 @@
           <label for="filtro-carrera">Carrera</label>
           <select id="filtro-carrera" class="form-select">
             <option value="">Todas las carreras</option>
-            <!-- Se llenará dinámicamente con fetch() al conectar el backend -->
+            <!-- Se llena dinámicamente -->
           </select>
         </div>
 
@@ -74,7 +74,7 @@
           <label for="filtro-materia">Materia</label>
           <select id="filtro-materia" class="form-select">
             <option value="">Todas las materias</option>
-            <!-- Se llenará dinámicamente según la carrera seleccionada -->
+            <!-- Se llena dinámicamente -->
           </select>
         </div>
 
@@ -103,11 +103,6 @@
 
     </section>
 
-    <!-- CONTADOR DE RESULTADOS -->
-    <p id="contador-resultados">
-      Mostrando <span id="num-resultados">0</span> resultados
-    </p>
-
     <!-- GRID DE CARDS -->
     <section id="grid-examenes">
       <div class="row g-3" id="contenedor-cards"></div>
@@ -124,158 +119,7 @@
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
 
   <!-- JQuery Examenes -->
-  <script> src="../assets/js/libs/JQuery/Consulta.js" </script>
-
-  <script>
-
-    function filtrarExamenes(){
-
-      const carrera = document.getElementById("filtro-carrera").value;
-      const semestre = document.getElementById("filtro-semestre").value;
-      const materia  = document.getElementById("filtro-materia").value;
-      const coord    = document.getElementById("input-busqueda").value.trim();
-
-      $.ajax({
-        url: "../controller/ExamenController.php",
-        method: 'GET',
-        data: { carrera, semestre, materia, coord },
-        dataType: 'json',
-        success: (respuesta) => {
-          cargarCards(respuesta);
-        },
-        error: (xhr) => {
-          cargarCards([]);
-        } 
-      });
-
-    }
-
-    // Crear card de examen
-
-    function crearCard(examen) {
-      // Campos opcionales — muestra "Sin especificar" si viene vacío
-      function campoOpcional(valor) {
-        if (valor && valor.trim() !== "") {
-          return `<span class="valor">${valor}</span>`;
-        }
-        return `<span class="valor vacio">Sin especificar</span>`;
-      }
-
-      return `
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="card-examen">
-
-            <!-- Header azul: materia y carrera -->
-            <div class="card-header-examen">
-              <p class="materia">${examen.materia}</p>
-              <p class="carrera">${examen.carrera}</p>
-            </div>
-
-            <!-- Body: detalles del examen -->
-            <div class="card-body-examen">
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-calendar icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Fecha</p>
-                  <p class="valor">${examen.fecha}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-clock icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Horario</p>
-                  <p class="valor">${examen.horario}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-user icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Coordinador</p>
-                  <p class="valor">${examen.coordinador}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-envelope icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Correo</p>
-                  <p class="valor">${examen.correo}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-solid fa-location-dot icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Salón/Laboratorio</p>
-                  <p class="valor">${examen.salon}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-file-code icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Proyecto</p>
-                  ${campoOpcional(examen.proyecto)}
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-file-lines icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Guía</p>
-                  ${campoOpcional(examen.guia)}
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-solid fa-circle-info icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Nota</p>
-                  ${campoOpcional(examen.nota)}
-                </div>
-              </div>
-
-            </div>
-          </article>
-        </div>
-      `;
-    }
-
-    // CArgar cards de Examenes
-
-    function cargarCards(lista) {
-      const contenedor    = document.getElementById("contenedor-cards");
-      const sinResultados = document.getElementById("sin-resultados");
-      const numResultados = document.getElementById("num-resultados");
-
-      numResultados.textContent = lista.length;
-
-      if (lista.length === 0) {
-        contenedor.innerHTML = "";
-        sinResultados.style.display = "block";
-      } else {
-        sinResultados.style.display = "none";
-        contenedor.innerHTML = lista.map(crearCard).join("");
-      }
-    }
-
-    // EVENTOS
-    document.getElementById("btn-buscar").addEventListener("click", filtrarExamenes);
-
-    document.getElementById("input-busqueda").addEventListener("keydown", e => {
-        if (e.key === "Enter") filtrarExamenes();
-      });
-
-    ["filtro-carrera", "filtro-semestre", "filtro-materia"].forEach(id => {
-      document.getElementById(id).addEventListener("change", filtrarExamenes);
-    });
-
-    // INICIO — cargar todas las cards al abrir la página
-    filtrarExamenes();
-  </script>
+  <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
 
 </body>
 </html>
