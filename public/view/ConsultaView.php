@@ -103,6 +103,11 @@
 
     </section>
 
+    <!-- CONTADOR DE RESULTADOS -->
+    <p id="contador-resultados">
+      Mostrando <span id="num-resultados">0</span> resultados
+    </p>
+
     <!-- GRID DE CARDS -->
     <section id="grid-examenes">
       <div class="row g-3" id="contenedor-cards"></div>
@@ -120,14 +125,6 @@
 
   <!-- JQuery Examenes -->
   <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
-
-  <footer>
-        <div id="footer">
-        <div class="container">
-            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
-        </div>
-        </div>
-    </footer>
 
 </body>
 </html>

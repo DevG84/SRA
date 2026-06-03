@@ -7,18 +7,18 @@
     $carrera = $_GET['carrera'] ?? '';
     $semestre = $_GET['semestre'] ?? '';
     $materia = $_GET['materia'] ?? '';
-    $coord = $_GET['coord'] ?? '';
+    $texto = $_GET['texto'] ?? '';
 
     //Limpiamos datos
     $carrera = trim($carrera);
     $semestre = trim($semestre);
     $materia = trim($materia);
-    $coord = trim($coord);
+    $texto = trim($texto);
 
     // Llamamos al modelo
     try {
         $model = new ExamenModel();
-        $examenes = $model -> getExamenes($carrera, $semestre, $materia, $coord);
+        $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto);
         echo json_encode($examenes);
     } catch (Exception $e) {
         error_log("Error en ExamenController: " . $e->getMessage());

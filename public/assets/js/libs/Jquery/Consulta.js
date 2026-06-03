@@ -56,12 +56,12 @@ function filtrarExamenes(){
       const carrera = document.getElementById("filtro-carrera").value;
       const semestre = document.getElementById("filtro-semestre").value;
       const materia  = document.getElementById("filtro-materia").value;
-      const coord    = document.getElementById("input-busqueda").value.trim();
+      const texto    = document.getElementById("input-busqueda").value.trim();
 
       $.ajax({
         url: "../controller/ExamenController.php",
         method: 'GET',
-        data: { carrera, semestre, materia, coord },
+        data: { carrera, semestre, materia, texto }, // Enviar filtros al controlador
         dataType: 'json',
         success: (respuesta) => {
           cargarCards(respuesta);
@@ -88,7 +88,7 @@ function filtrarExamenes(){
         <div class="col-12 col-md-6 col-lg-4">
           <article class="card-examen">
 
-            <!-- Header azul: materia y carrera -->
+            <!-- Header: materia y carrera -->
             <div class="card-header-examen">
               <p class="materia">${examen.materia}</p>
               <p class="carrera">${examen.carrera}</p>
@@ -101,7 +101,7 @@ function filtrarExamenes(){
                 <i class="fa-regular fa-calendar icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Fecha</p>
-                  <p class="valor">${examen.fecha}</p>
+                  <p class="valor">${new Date(examen.fecha + "T00:00:00").toLocaleDateString("es-MX")}</p>
                 </div>
               </div>
 
@@ -117,7 +117,7 @@ function filtrarExamenes(){
                 <i class="fa-regular fa-user icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Coordinador</p>
-                  <p class="valor">${examen.coordinador}</p>
+                  <p class="valor">${examen.coordNombre} ${examen.coordApellidoP} ${examen.coordApellidoM}</p>
                 </div>
               </div>
 
@@ -125,7 +125,7 @@ function filtrarExamenes(){
                 <i class="fa-regular fa-envelope icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Correo</p>
-                  <p class="valor">${examen.correo}</p>
+                  <p class="valor">${examen.coordCorreo}</p>
                 </div>
               </div>
 
@@ -203,4 +203,5 @@ function filtrarExamenes(){
 
     // INICIO — cargar lo necesario al cargar la página
     cargarCarreras();
+    cargarMaterias(''); // Cargar todas las materias inicialmente
     filtrarExamenes();
