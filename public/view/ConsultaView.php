@@ -121,5 +121,13 @@
   <!-- JQuery Examenes -->
   <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
 
+  <footer>
+        <div id="footer">
+        <div class="container">
+            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
+        </div>
+        </div>
+    </footer>
+
 </body>
 </html>
