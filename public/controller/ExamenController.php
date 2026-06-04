@@ -1,27 +1,112 @@
 <?php
 
     // Pasamos Model
+    session_start();
     require_once __DIR__ . '/../model/ExamenModel.php';
 
-    // Obtener Parametros
-    $carrera = $_GET['carrera'] ?? '';
-    $semestre = $_GET['semestre'] ?? '';
-    $materia = $_GET['materia'] ?? '';
-    $texto = $_GET['texto'] ?? '';
+    $model = new ExamenModel();
 
-    //Limpiamos datos
-    $carrera = trim($carrera);
-    $semestre = trim($semestre);
-    $materia = trim($materia);
-    $texto = trim($texto);
+    // Metodo GET
 
-    // Llamamos al modelo
-    try {
-        $model = new ExamenModel();
-        $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto);
-        echo json_encode($examenes);
-    } catch (Exception $e) {
-        error_log("Error en ExamenController: " . $e->getMessage());
-        http_response_code(500);
-        echo json_encode([ "msj" => "Error al obtener los exámenes" ]);
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        
+        // Obtener Parametros
+        $carrera = $_GET['carrera'] ?? '';
+        $semestre = $_GET['semestre'] ?? '';
+        $materia = $_GET['materia'] ?? '';
+        $texto = $_GET['texto'] ?? '';
+
+        //Limpiamos datos
+        $carrera = trim($carrera);
+        $semestre = trim($semestre);
+        $materia = trim($materia);
+        $texto = trim($texto);
+
+        // Llamamos al modelo
+        try {
+            $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto);
+            echo json_encode($examenes);
+        } catch (Exception $e) {
+            error_log("Error en ExamenController: " . $e->getMessage());
+            http_response_code(500);
+            echo json_encode([ "msj" => "Error al obtener los exámenes" ]);
+        }
+    }else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        //METODO POST
+
+        if (!isset($_SESSION['id_coordinador'])) {
+            http_response_code(401);
+            echo json_encode([ "msj" => "No autorizado" ]);
+            exit;
+        }
+
+        $accion = $_POST['accion'] ?? '';
+        $respuesta = [];
+
+        try{
+            switch ($accion) {
+                
+                case 'eliminar':
+                    $id_examen = $_POST['id_examen'] ?? '';
+                    if (empty($id_examen)) {
+                        throw new Exception("ID de examen no proporcionado");
+                    }
+                    $resultado = $model->deleteExamen($id_examen);
+                    if ($resultado) {
+                        $respuesta['cod'] = 1;
+                        $respuesta['msj'] = "Examen eliminado correctamente";
+                        $respuesta['icono'] = "success";
+                    } else {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "No se pudo eliminar el examen";
+                        $respuesta['icono'] = "error";
+                    }
+                    break;
+
+                case 'agregar':
+
+                    $datos = $_POST;
+                    $resultado = $model->addExamen($datos);
+
+                    if ($resultado) {
+                        $respuesta['cod'] = 1;
+                        $respuesta['msj'] = "Examen agregado correctamente";
+                        $respuesta['icono'] = "success";
+                    } else {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "No se pudo agregar el examen";
+                        $respuesta['icono'] = "error";
+                    }
+                    break;
+
+                case 'editar':
+                    $id_examen = $_POST['id_examen'] ?? '';
+                    if (empty($id_examen)) {
+                        throw new Exception("ID de examen no proporcionado");
+                    }
+                    $datos = $_POST;
+                    $resultado = $model->updateExamen($id_examen, $datos);
+
+                    if ($resultado) {
+                        $respuesta['cod'] = 1;
+                        $respuesta['msj'] = "Examen actualizado";
+                        $respuesta['icono'] = "success";
+                    } else {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "No se pudo actualizar el examen";
+                        $respuesta['icono'] = "error";
+                    }
+                    break;
+                
+                default:
+                    throw new Exception("Acción no reconocida");
+            }
+        } catch (Exception $e) {
+            error_log("Error en ExamenController POST: " . $e->getMessage());
+            $respuesta['cod'] = 0;
+            $respuesta['msj'] = "Error al procesar la solicitud";
+            $respuesta['icono'] = "error";
+        }
+        echo json_encode($respuesta);
     }

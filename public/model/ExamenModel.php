@@ -64,8 +64,70 @@ class ExamenModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getExamen($id) {}
-    public function addExamen($examen) {}
-    public function updateExamen($id, $examen) {}
-    public function deleteExamen($id) {}
+    public function getExamen($id) {
+
+        // Obtenemos un examen por su ID
+        $stmt = $this->db->prepare("SELECT * FROM examen WHERE id_examen = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function addExamen($examen) {
+
+        // Agregar un nuevo examen
+        $stmt = $this->db->prepare(
+            "INSERT INTO examen (id_materia, id_coordinador, id_salon, fecha, turno, horario, nota, guia, proyecto)
+            VALUES (:id_materia, :id_coordinador, :id_salon, :fecha, :turno, :horario, :nota, :guia, :proyecto)"
+        );
+
+        $stmt->execute([
+            ':id_materia' => $examen['id_materia'],
+            ':id_coordinador' => $examen['id_coordinador'],
+            ':id_salon' => $examen['id_salon'],
+            ':fecha' => $examen['fecha'],
+            ':turno' => $examen['turno'],
+            ':horario' => $examen['horario'],
+            ':nota' => $examen['nota'],
+            ':guia' => $examen['guia'],
+            ':proyecto' => $examen['proyecto']
+        ]);
+        return $stmt->rowCount();
+    }
+
+    public function updateExamen($id, $examen) {
+        // Actualizar un examen existente
+        $stmt = $this->db->prepare(
+            "UPDATE examen SET 
+                id_materia = :id_materia, 
+                id_coordinador = :id_coordinador, 
+                id_salon = :id_salon, 
+                fecha = :fecha, 
+                turno = :turno, 
+                horario = :horario, 
+                nota = :nota, 
+                guia = :guia, 
+                proyecto = :proyecto
+            WHERE id_examen = :id"
+        );
+
+        $stmt->execute([
+            ':id' => $id,
+            ':id_materia' => $examen['id_materia'],
+            ':id_coordinador' => $examen['id_coordinador'],
+            ':id_salon' => $examen['id_salon'],
+            ':fecha' => $examen['fecha'],
+            ':turno' => $examen['turno'],
+            ':horario' => $examen['horario'],
+            ':nota' => $examen['nota'] ?: null,
+            ':guia' => $examen['guia'] ?: null,
+            ':proyecto' => $examen['proyecto'] ?: null
+        ]);
+        return $stmt->rowCount();
+    }
+    public function deleteExamen($id) {
+        // Eliminar un examen por su ID
+        $stmt = $this->db->prepare("DELETE FROM examen WHERE id_examen = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->rowCount();
+    }
 }
