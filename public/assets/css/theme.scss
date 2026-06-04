@@ -1,8 +1,3 @@
-/*
-    Implementación de paleta de colores personalizada para Bootstrap
-*/
-
-// 1. DEFINICIÓN DE VARIABLES DE COLOR (Tus colores exactos)
 $custom-blue-50:  #E9F1FF;
 $custom-blue-200: #ABCEFF;
 $custom-blue-400: #4CA9FF;
@@ -35,16 +30,6 @@ $custom-grey-700: #595C5F;
 $custom-grey-800: #393B3D;
 $custom-grey-900: #1B1D1E;
 
-// 2. IMPORTAR FUNCIONES Y VARIABLES INICIALES DE BOOTSTRAP
-// Ajusta estas rutas según tu estructura de carpetas (deben apuntar a los archivos .scss de Bootstrap)
-@import "/libs/bootstrap-5.3.8/scss/functions";
-@import "/libs/bootstrap-5.3.8/scss/variables";
-@import "/libs/bootstrap-5.3.8/scss/variables-dark";
-@import "/libs/bootstrap-5.3.8/scss/maps";
-@import "/libs/bootstrap-5.3.8/scss/mixins";
-@import "/libs/bootstrap-5.3.8/scss/utilities";
-
-// 3. MAPAS DE COLORES PERSONALIZADOS
 $blues: (
   "50":  $custom-blue-50,
   "200": $custom-blue-200,
@@ -65,8 +50,7 @@ $grays: (
   "900": $custom-grey-900
 );
 
-// 4. CONFIGURACIÓN DEL TEMA (MODO CLARO)
-$primary:       $custom-blue-800; // Tu acento base
+$primary:       $custom-blue-800;
 $success:       $custom-green-700;
 $danger:        $custom-pink-500;
 $info:          $custom-blue-400;
@@ -84,22 +68,11 @@ $theme-colors: map-merge(
   )
 );
 
-// 5. IMPORTAR EL RESTO DE BOOTSTRAP
-@import "/libs/bootstrap-5.3.8/scss/bootstrap";
-
-// 6. CONFIGURACIÓN ESPECÍFICA PARA MODO OSCURO (Bootstrap 5.3+)
 [data-bs-theme="dark"] {
-  // En modo oscuro, usamos tonos más claros para mejor visibilidad
   --bs-primary: #{$custom-blue-400};
-  --bs-primary-rgb: #{to-rgb($custom-blue-400)};
-  
   --bs-success: #{$custom-green-200};
-  --bs-success-rgb: #{to-rgb($custom-green-200)};
-  
   --bs-danger: #{$custom-pink-400};
-  --bs-danger-rgb: #{to-rgb($custom-pink-400)};
 
-  // Fondo y texto para modo oscuro usando tus grises
   --bs-body-bg: #{$custom-grey-900};
   --bs-body-color: #{$custom-grey-50};
   --bs-tertiary-bg: #{$custom-grey-800};
