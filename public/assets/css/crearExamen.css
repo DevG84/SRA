@@ -1,0 +1,77 @@
+:root {
+  --azul-primary:   #005A87; /* Color principal — header, botones, card header */
+  --azul-secondary: #006395; /* Variante más clara — hover de botones           */
+  --azul-dark:      #005783; /* Variante más oscura — sombras, bordes           */
+  --azul-light:     #0071AA; /* Acento — labels de filtros, contadores          */
+  --gris-fondo:     #F4F6F8; /* Fondo general de la página                      */
+  --gris-card:      #FFFFFF; /* Fondo de las cards                              */
+  --gris-borde:     #DEE2E6; /* Bordes de inputs y cards                        */
+  --texto-primary:  #1A2B3C; /* Texto principal                                 */
+  --texto-muted:    #6C757D; /* Texto secundario — etiquetas, subtítulos        */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--gris-fondo);
+  color: var(--texto-primary);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#header {
+  background-color: var(--azul-primary);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#header .logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+#header .logo_escom {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+#header .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene proporciones sin recortar */
+}
+
+#header .logo_escom img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene proporciones sin recortar */
+}
+
+#header h1 {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-align: center;
+  flex: 1;
+  padding: 0 1rem;
+}

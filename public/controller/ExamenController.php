@@ -64,9 +64,31 @@
                     }
                     break;
 
-                case 'agregar':
+                case 'crear':
+
+                    function guardarArchivo($archivo) {
+
+                        if (!isset($_FILES[$archivo]) || $_FILES[$archivo]['error'] === UPLOAD_ERR_NO_FILE) {
+                            return null; // no se subió archivo
+                        }
+
+                        if($_FILES[$archivo]['type'] !== "application/pdf") {
+                            throw new Exception("El archivo debe ser pdf");
+                        }
+
+                        $nombreArchivo = uniqid($archivo . "_") . ".pdf";
+                        $rutaDestino = __DIR__ . "/../uploads/" . $nombreArchivo;
+                        
+                        if (move_uploaded_file($_FILES[$archivo]['tmp_name'], $rutaDestino)) {
+                            return 'uploads/' . $nombreArchivo; // se guardó correctamente
+                        } else {
+                            throw new Exception("Error al guardar el archivo");
+                        }
+                    }
 
                     $datos = $_POST;
+                    $datos['guia'] = guardarArchivo('guia');
+                    $datos['proyecto'] = guardarArchivo('proyecto');
                     $resultado = $model->addExamen($datos);
 
                     if ($resultado) {
@@ -86,6 +108,8 @@
                         throw new Exception("ID de examen no proporcionado");
                     }
                     $datos = $_POST;
+                    $datos['guia'] = guardarArchivo('guia');
+                    $datos['proyecto'] = guardarArchivo('proyecto');
                     $resultado = $model->updateExamen($id_examen, $datos);
 
                     if ($resultado) {
