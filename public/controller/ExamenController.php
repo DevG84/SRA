@@ -109,10 +109,20 @@
                     if (empty($id_examen)) {
                         throw new Exception("ID de examen no proporcionado");
                     }
+
+                    $examenActual = $model->getExamen($id_examen);
+                    if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                        $respuesta['cod']   = 0;
+                        $respuesta['msj']   = "No tienes permiso para editar este examen";
+                        $respuesta['icono'] = "error";
+                        break;
+                    }
+
                     $datos = $_POST;
-                    $datos['guia'] = guardarArchivo('guia', 'guias');
-                    $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos');
-                    $resultado = $model->updateExamen($id_examen, $datos);
+                    // Si no se subió archivo nuevo, conservar el actual
+                    $datos['guia'] = guardarArchivo('guia', 'guias') ?? ($_POST['guia_actual'] ?? null);
+                    $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos') ?? ($_POST['proyecto_actual'] ?? null);
+                    $resultado = $model -> updateExamen($id_examen, $datos);
 
                     if ($resultado) {
                         $respuesta['cod'] = 1;

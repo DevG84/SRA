@@ -34,4 +34,13 @@ class MateriaModel {
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Trae una materia por su ID
+    public function getMateria($id) {
+        $stmt = $this->db->prepare(
+            "SELECT id_materia, id_carrera, semestre FROM materia WHERE id_materia = :id"
+        );
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
