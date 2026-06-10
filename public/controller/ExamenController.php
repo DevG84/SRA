@@ -1,10 +1,32 @@
 <?php
 
     // Pasamos Model
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     require_once __DIR__ . '/../model/ExamenModel.php';
 
     $model = new ExamenModel();
+
+    function guardarArchivo($archivo, $subcarpeta) {
+        if (!isset($_FILES[$archivo]) || $_FILES[$archivo]['error'] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+
+        if ($_FILES[$archivo]['type'] !== "application/pdf") {
+            throw new Exception("El archivo debe ser PDF");
+        }
+
+        $nombreArchivo = uniqid($archivo . "_") . ".pdf";
+        $rutaDestino   = __DIR__ . "/../uploads/" . $subcarpeta . "/" . $nombreArchivo;
+
+        if (move_uploaded_file($_FILES[$archivo]['tmp_name'], $rutaDestino)) {
+            return 'uploads/' . $subcarpeta . '/' . $nombreArchivo;
+        } else {
+            throw new Exception("Error al guardar el archivo $archivo");
+        }            
+    }
 
     // Metodo GET
 
@@ -64,31 +86,11 @@
                     }
                     break;
 
-                case 'crear':
-
-                    function guardarArchivo($archivo) {
-
-                        if (!isset($_FILES[$archivo]) || $_FILES[$archivo]['error'] === UPLOAD_ERR_NO_FILE) {
-                            return null; // no se subió archivo
-                        }
-
-                        if($_FILES[$archivo]['type'] !== "application/pdf") {
-                            throw new Exception("El archivo debe ser pdf");
-                        }
-
-                        $nombreArchivo = uniqid($archivo . "_") . ".pdf";
-                        $rutaDestino = __DIR__ . "/../uploads/" . $nombreArchivo;
-                        
-                        if (move_uploaded_file($_FILES[$archivo]['tmp_name'], $rutaDestino)) {
-                            return 'uploads/' . $nombreArchivo; // se guardó correctamente
-                        } else {
-                            throw new Exception("Error al guardar el archivo");
-                        }
-                    }
+                case 'agregar':
 
                     $datos = $_POST;
-                    $datos['guia'] = guardarArchivo('guia');
-                    $datos['proyecto'] = guardarArchivo('proyecto');
+                    $datos['guia'] = guardarArchivo('guia', 'guias');
+                    $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos');
                     $resultado = $model->addExamen($datos);
 
                     if ($resultado) {
@@ -108,8 +110,8 @@
                         throw new Exception("ID de examen no proporcionado");
                     }
                     $datos = $_POST;
-                    $datos['guia'] = guardarArchivo('guia');
-                    $datos['proyecto'] = guardarArchivo('proyecto');
+                    $datos['guia'] = guardarArchivo('guia', 'guias');
+                    $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos');
                     $resultado = $model->updateExamen($id_examen, $datos);
 
                     if ($resultado) {

@@ -1,6 +1,9 @@
 <?php
     //AGREGAR SESION
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    require_once __DIR__ . '/../../includes/auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +26,7 @@
 
 <body>
 
-  <header header id="header">
+  <header id="header">
     <div class="logo">
         <img src="../assets/img/logo_ipn.png" alt="Logo ESCOM">
     </div>
@@ -36,6 +39,9 @@
 
   </header>
 
+  <main style="padding: 0 0.75rem;">
+    <div id="contenedor-form">
+    <h2><i class="fa-solid fa-calendar-plus"></i> Crear Examen ETS</h2>
     <form id="form-crear-examen" autocomplete="off" enctype="multipart/form-data">
 
         <div class="row g-3">
@@ -130,11 +136,13 @@
     <!-- Campo oculto: acción para el controller -->
     <input type="hidden" name="accion" value="agregar">
 
-    <div class="mt-3">
-        <button type="submit" class="btn btn-primary">Crear examen</button>
-    </div>
+    <button type="submit" id="btn-crear">
+        <i class="fa-solid fa-plus"></i> Crear examen
+    </button>
 
     </form>
+    </div>
+    </main>
 
     <!-- JQuery -->
     <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>

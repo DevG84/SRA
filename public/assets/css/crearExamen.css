@@ -75,3 +75,72 @@ body {
   flex: 1;
   padding: 0 1rem;
 }
+
+/* Contenedor principal */
+#contenedor-form {
+  max-width: 1500px;
+  margin: 1.5rem auto;
+  background-color: var(--gris-card);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Título del formulario */
+#contenedor-form h2 {
+  color: var(--azul-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gris-borde);
+}
+
+/* Labels */
+label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--azul-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Inputs y selects */
+.form-control, .form-select {
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--azul-primary);
+  box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.12);
+  outline: none;
+}
+
+/* Botón crear */
+#btn-crear {
+  background-color: var(--azul-light);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#btn-crear:hover {
+  background-color: var(--azul-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #header h1 { font-size: 1rem; }
+  #contenedor-form { margin: 0.75rem; padding: 1rem; }
+}
