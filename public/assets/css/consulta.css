@@ -1,23 +1,17 @@
-/* ==============================================
-   VARIABLES DE COLOR — paleta oficial del proyecto
-   Cambiar aquí afecta todo el sitio de forma consistente
-============================================== */
+@import url('./theme.scss');
+
 :root {
-  --azul-primary:   #005A87; /* Color principal — header, botones, card header */
-  --azul-secondary: #006395; /* Variante más clara — hover de botones           */
-  --azul-dark:      #005783; /* Variante más oscura — sombras, bordes           */
-  --azul-light:     #0071AA; /* Acento — labels de filtros, contadores          */
-  --gris-fondo:     #F4F6F8; /* Fondo general de la página                      */
-  --gris-card:      #FFFFFF; /* Fondo de las cards                              */
-  --gris-borde:     #DEE2E6; /* Bordes de inputs y cards                        */
-  --texto-primary:  #1A2B3C; /* Texto principal                                 */
-  --texto-muted:    #6C757D; /* Texto secundario — etiquetas, subtítulos        */
+  --azul-primary:   #003D66;/*#005A87; /* Color principal — header, botones, card header */
+  --azul-secondary: #ABCEFF;/*#006395; /* Variante más clara — hover de botones           */
+  --azul-dark:      #001E35;/*#005783; /* Variante más oscura — sombras, bordes           */
+  --azul-light:     #0084D4;/*#0071AA; /* Acento — labels de filtros, contadores          */
+  --gris-fondo:     var(--bs-body-bg);/*#F4F6F8; /* Fondo general de la página                      */
+  --gris-card:      var(--bs-tertiary-bg);/*#FFFFFF; /* Fondo de las cards                              */
+  --gris-borde:     #595C5F;/*#DEE2E6; /* Bordes de inputs y cards                        */
+  --texto-primary:  var(--bs-body-color);/*#1A2B3C; /* Texto principal                                 */
+  --texto-muted:    #DEE2E6;/*#6C757D; /* Texto secundario — etiquetas, subtítulos        */
 }
 
-/* ==============================================
-   RESET Y BASE
-   box-sizing: border-box — el padding no agranda los elementos
-============================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -25,6 +19,10 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
   background-color: var(--gris-fondo);
   color: var(--texto-primary);
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -32,10 +30,11 @@ body {
   line-height: 1.5;
 }
 
-/* ==============================================
-   HEADER — barra superior azul
-   position: sticky — se queda fijo al hacer scroll
-============================================== */
+main {
+  flex: 1;
+  display: block;
+}
+
 #header {
   background-color: var(--azul-primary);
   padding: 1rem 2rem;
@@ -43,7 +42,7 @@ body {
   align-items: center;
   justify-content: space-between;
   position: sticky;
-  top: 0;
+  /*top: 0;*/
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -66,7 +65,7 @@ body {
 
 #header h1 {
   color: white;
-  font-size: 1.4rem;
+  font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.3px;
   text-align: center;
@@ -103,9 +102,8 @@ body {
   background-color: var(--gris-card);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  margin: 1.5rem auto;
-  max-width: 1200px;
+  box-shadow: 0 1px 4px #393B3D;
+  margin: 1.5rem;
 }
 
 #seccion-filtros label {
@@ -124,14 +122,13 @@ body {
   padding: 0.6rem 0.9rem;
   font-size: 0.95rem;
   color: var(--texto-primary);
-  background-color: white;
   transition: border-color 0.2s;
   width: 100%;
 }
 
 #seccion-filtros .form-select:focus {
   border-color: var(--azul-primary);
-  box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.12);
+  box-shadow: 0 0 0 3px #393B3D;
   outline: none;
 }
 
@@ -148,6 +145,8 @@ body {
   font-size: 0.95rem;
   width: 100%;
   transition: border-color 0.2s;
+  color: var(--texto-primary);
+  background: var(--gris-fondo);
 }
 
 #input-busqueda:focus {
@@ -158,7 +157,7 @@ body {
 
 #btn-buscar {
   background-color: var(--azul-light);
-  color: white;
+  color: var(--texto-primary);
   border: none;
   border-radius: 8px;
   padding: 0.65rem 1.5rem;
@@ -193,7 +192,7 @@ body {
    GRID DE CARDS
 ============================================== */
 #grid-examenes {
-  max-width: 1200px;
+  max-width: 99%;
   margin: 0 auto;
   padding: 0 0.75rem 2rem;
 }
@@ -248,7 +247,7 @@ body {
 }
 
 .detalle-item .icono {
-  color: var(--texto-muted);
+  color: #565a5c;
   font-size: 0.85rem;
   margin-top: 2px;
   width: 16px;

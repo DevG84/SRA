@@ -3,7 +3,7 @@
 // No requiere sesión — accesible para cualquier usuario
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <!-- Para mejorar la accesibilidad y responsivo -->
@@ -86,7 +86,7 @@
       <div class="row g-3 align-items-end">
         <div class="col-12 col-md-9">
           <label for="input-busqueda">Búsqueda por texto</label>
-          <input
+          <input class="input"
             type="text"
             id="input-busqueda"
             placeholder="Buscar por materia, carrera o coordinador"
@@ -102,11 +102,6 @@
       </div>
 
     </section>
-
-    <!-- CONTADOR DE RESULTADOS -->
-    <p id="contador-resultados">
-      Mostrando <span id="num-resultados">0</span> resultados
-    </p>
 
     <!-- GRID DE CARDS -->
     <section id="grid-examenes">
@@ -132,7 +127,15 @@
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
 
   <!-- JQuery Examenes -->
-  <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
+  <script src="../assets/js/Consulta.js" ></script>
+
+  <footer>
+        <div id="footer">
+        <div class="container">
+            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
+        </div>
+        </div>
+    </footer>
 
 </body>
 </html>

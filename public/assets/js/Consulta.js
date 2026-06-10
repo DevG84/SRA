@@ -173,7 +173,9 @@ function filtrarExamenes(){
       const sinResultados = document.getElementById("sin-resultados");
       const numResultados = document.getElementById("num-resultados");
 
-      numResultados.textContent = lista.length;
+      if (numResultados) {
+        numResultados.textContent = lista.length;
+      }
 
       if (lista.length === 0) {
         contenedor.innerHTML = "";

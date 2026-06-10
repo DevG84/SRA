@@ -28,6 +28,8 @@
     <!-- JQuery -->
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
   <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/theme.scss">
     <script defer src="../assets/js/login.js"></script>
 </head>
 <body>
