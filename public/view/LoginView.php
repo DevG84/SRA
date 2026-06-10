@@ -1,5 +1,13 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
+    // Si ya hay sesión activa, redirigir al dashboard
+    if (isset($_SESSION['id_coordinador'])) {
+        header('Location: ./DashboardView.php');
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +24,10 @@
     <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.min.js"></script>
     <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
 
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <!-- JQuery -->
+  <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
+  <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="../assets/css/login.css">
     <link rel="stylesheet" href="../assets/css/theme.scss">
     <script defer src="../assets/js/login.js"></script>
@@ -60,11 +72,11 @@
         <form id="login" autocomplete="off">
             <h1>Sistema de Regularización<br>Académica</h1>
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="Usuario">
-                <label for="floatingInput">Usuario</label>
+                <input type="email" class="form-control" id="floatingInput" placeholder="Correo" name="correo">
+                <label for="floatingInput">Correo</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" name="password">
                 <label for="floatingPassword">Contraseña</label>
             </div>
             <div class="mb-3 form-check">

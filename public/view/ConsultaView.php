@@ -112,6 +112,14 @@
       </div>
     </section>
 
+    <footer>
+        <div id="footer">
+        <div class="container">
+            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
+        </div>
+        </div>
+    </footer>
+
   <!-- Bootstrap JS -->
   <script src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.min.js"></script>
 

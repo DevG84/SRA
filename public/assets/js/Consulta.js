@@ -76,13 +76,6 @@ function filtrarExamenes(){
     // Crear card de examen
 
     function crearCard(examen) {
-      // Campos opcionales — muestra "Sin especificar" si viene vacío
-      function campoOpcional(valor) {
-        if (valor && valor.trim() !== "") {
-          return `<span class="valor">${valor}</span>`;
-        }
-        return `<span class="valor vacio">Sin especificar</span>`;
-      }
 
       return `
         <div class="col-12 col-md-6 col-lg-4">
@@ -141,7 +134,10 @@ function filtrarExamenes(){
                 <i class="fa-regular fa-file-code icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Proyecto</p>
-                  ${campoOpcional(examen.proyecto)}
+                  ${examen.proyecto
+                      ? `<a href="../${examen.proyecto}" target="_blank" class="valor enlace">Ver proyecto</a>`
+                      : `<span class="valor vacio">Sin especificar</span>`
+                  }
                 </div>
               </div>
 
@@ -149,7 +145,10 @@ function filtrarExamenes(){
                 <i class="fa-regular fa-file-lines icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Guía</p>
-                  ${campoOpcional(examen.guia)}
+                  ${examen.guia
+                      ? `<a href="../${examen.guia}" target="_blank" class="valor enlace">Ver guía</a>`
+                      : `<span class="valor vacio">Sin especificar</span>`
+                  }
                 </div>
               </div>
 
@@ -157,7 +156,7 @@ function filtrarExamenes(){
                 <i class="fa-solid fa-circle-info icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Nota</p>
-                  ${campoOpcional(examen.nota)}
+                  ${examen.nota ? `<span class="valor">${examen.nota}</span>` : `<span class="valor vacio">Sin especificar</span>`}
                 </div>
               </div>
 
