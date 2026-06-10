@@ -119,7 +119,7 @@
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
 
   <!-- JQuery Examenes -->
-  <script src="../assets/js/libs/Jquery/Consulta.js" ></script>
+  <script src="../assets/js/Consulta.js" ></script>
 
   <footer>
         <div id="footer">
