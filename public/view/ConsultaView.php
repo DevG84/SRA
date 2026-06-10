@@ -3,7 +3,7 @@
 // No requiere sesión — accesible para cualquier usuario
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <!-- Para mejorar la accesibilidad y responsivo -->
@@ -86,7 +86,7 @@
       <div class="row g-3 align-items-end">
         <div class="col-12 col-md-9">
           <label for="input-busqueda">Búsqueda por texto</label>
-          <input
+          <input class="input"
             type="text"
             id="input-busqueda"
             placeholder="Buscar por materia, carrera o coordinador"

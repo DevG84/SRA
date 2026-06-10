@@ -145,6 +145,7 @@ main {
   width: 100%;
   transition: border-color 0.2s;
   color: var(--texto-primary);
+  background: var(--gris-fondo);
 }
 
 #input-busqueda:focus {
