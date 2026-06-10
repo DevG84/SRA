@@ -3,6 +3,7 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+    
     require_once __DIR__ . '/../../includes/auth.php';
 ?>
 
@@ -36,6 +37,15 @@
     <div class="logo">
         <img src="../assets/img/logo_escom_blanco.png" alt="Logo ESCOM">
     </div>
+    
+    <! -- TEMPORAL: Cerrar sesión (solo para pruebas, luego va en un menú) 
+    //TEMPORAL: Cerrar sesión (solo para pruebas, luego va en un menú) 
+    //TEMPORAL: Cerrar sesión (solo para pruebas, luego va en un menú) 
+    TEMPORAL: Cerrar sesión (solo para pruebas, luego va en un menú) !> 
+
+    <a href="../controller/CerrarSesionController.php">
+    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión TEMPORAL
+</a>
 
   </header>
 

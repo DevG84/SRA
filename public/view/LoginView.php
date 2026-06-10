@@ -1,5 +1,13 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
+    // Si ya hay sesión activa, redirigir al dashboard
+    if (isset($_SESSION['id_coordinador'])) {
+        header('Location: ./DashboardView.php');
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
