@@ -11,16 +11,16 @@
         }
      
         public function login($correo, $password) {
-        $stmt = $this->db->prepare(
-            "SELECT id_coordinador, nombre, apellido_p, contrasena 
-             FROM coordinador WHERE correo = :correo"
-        );
-        $stmt->execute([':correo' => $correo]);
-        $coordinador = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->db->prepare(
+                "SELECT id_coordinador, nombre, apellido_p, contrasena 
+                FROM coordinador WHERE correo = :correo"
+            );
+            $stmt->execute([':correo' => $correo]);
+            $coordinador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($coordinador && password_verify($password, $coordinador['contrasena'])) {
-            return $coordinador;
+            if ($coordinador && password_verify($password, $coordinador['contrasena'])) {
+                return $coordinador;
+            }
+            return null;
         }
-        return null;
-    }
     }
