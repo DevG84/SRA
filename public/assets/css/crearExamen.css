@@ -1,125 +1,63 @@
+/* Variables de color */
 :root {
-  --azul-primary:   #005A87; /* Color principal — header, botones, card header */
-  --azul-secondary: #006395; /* Variante más clara — hover de botones           */
-  --azul-dark:      #005783; /* Variante más oscura — sombras, bordes           */
-  --azul-light:     #0071AA; /* Acento — labels de filtros, contadores          */
-  --gris-fondo:     #F4F6F8; /* Fondo general de la página                      */
-  --gris-card:      #FFFFFF; /* Fondo de las cards                              */
-  --gris-borde:     #DEE2E6; /* Bordes de inputs y cards                        */
-  --texto-primary:  #1A2B3C; /* Texto principal                                 */
-  --texto-muted:    #6C757D; /* Texto secundario — etiquetas, subtítulos        */
+  --azul-primary:   #005A87;
+  --azul-secondary: #006395;
+  --azul-light:     #0071AA;
+  --gris-fondo:     #1a1a2e; /* dark mode */
+  --gris-card:      #2d2d44;
+  --gris-borde:     #444466;
+  --texto-primary:  #e0e0e0;
+  --texto-muted:    #9999bb;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* Body en flex para sidebar + contenido */
 body {
-  background-color: var(--gris-fondo);
-  color: var(--texto-primary);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-#header {
-  background-color: var(--azul-primary);
-  padding: 1rem 2rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-height: 100vh;
 }
 
-#header .logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-
-#header .logo_escom {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-#header .logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Mantiene proporciones sin recortar */
-}
-
-#header .logo_escom img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Mantiene proporciones sin recortar */
-}
-
-#header h1 {
-  color: white;
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-align: center;
+/* Contenido principal */
+#main-content {
   flex: 1;
-  padding: 0 1rem;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: var(--bs-body-bg);
 }
 
-/* Contenedor principal */
+/* Contenedor del formulario */
 #contenedor-form {
-  max-width: 1500px;
-  margin: 1.5rem auto;
-  background-color: var(--gris-card);
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--bs-tertiary-bg);
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
-/* Título del formulario */
+/* Título */
 #contenedor-form h2 {
-  color: var(--azul-primary);
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--gris-borde);
+  border-bottom: 2px solid var(--bs-border-color);
 }
 
 /* Labels */
 label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--azul-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
   display: block;
 }
 
-/* Inputs y selects */
+/* Inputs y selects — heredan el tema dark de Bootstrap */
 .form-control, .form-select {
-  border: 1px solid var(--gris-borde);
   border-radius: 8px;
-  padding: 0.6rem 0.9rem;
   font-size: 0.95rem;
   transition: border-color 0.2s;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: var(--azul-primary);
-  box-shadow: 0 0 0 3px rgba(0, 90, 135, 0.12);
-  outline: none;
 }
 
 /* Botón crear */
@@ -133,6 +71,10 @@ label {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1rem;
 }
 
 #btn-crear:hover {
@@ -141,6 +83,6 @@ label {
 
 /* Responsive */
 @media (max-width: 768px) {
-  #header h1 { font-size: 1rem; }
-  #contenedor-form { margin: 0.75rem; padding: 1rem; }
+  #main-content { padding: 1rem; }
+  #contenedor-form { padding: 1rem; }
 }

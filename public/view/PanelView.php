@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_coordinador'])) {
-    header('Location: ./LoginView.php');
-    exit();
-}
+require_once __DIR__ . '/../../includes/auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,70 +26,10 @@ if (!isset($_SESSION['id_coordinador'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-<div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary sidebar-transition sidebar-collapsed" style="height: 100vh;">
-  
-    <a id="toggle-sidebar" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="cursor: pointer;">
-        <span class="material-symbols-outlined me-2" style="font-size: 32px;">page_menu_ios</span>
-        <span class="fs-4 nav-text">Sistema SRA</span>
-    </a>
-
-    <hr>
-
-    <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-        <a href="./DashboardView.php" class="nav-link link-body-emphasis d-flex align-items-center">
-        <span class="material-symbols-outlined me-2">home</span>
-        <span class="nav-text">Inicio</span>
-        </a>
-    </li>
-    <li>
-        <a href="" class="nav-link active link-body-emphasis d-flex align-items-center" aria-current="page">
-        <span class="material-symbols-outlined me-2">dashboard</span>
-        <span class="nav-text">Panel de Control</span>
-        </a>
-    </li>
-    <li>
-        <a href="./ReportesView.php" class="nav-link link-body-emphasis d-flex align-items-center">
-        <span class="material-symbols-outlined me-2">lab_profile</span>
-        <span class="nav-text">Reportes</span>
-        </a>
-    </li>
-    <li>
-        <a href="./CoordinadoresView.php" class="nav-link link-body-emphasis d-flex align-items-center">
-        <span class="material-symbols-outlined me-2">manage_accounts</span>
-        <span class="nav-text">Coordinadores</span>
-        </a>
-    </li>
-    <li>
-        <a href="./AlumnosView.php" class="nav-link link-body-emphasis d-flex align-items-center">
-        <span class="material-symbols-outlined me-2">history_edu</span>
-        <span class="nav-text">Alumnos</span>
-        </a>
-    </li>
-    </ul>
-
-    <hr>
-
-    <div class="dropdown">
-    <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="material-symbols-outlined me-2">account_circle</span>
-        <strong class="nav-text"><?php echo $_SESSION['nombre'] ?? 'Desconocido'; ?></strong>
-    </a>
-    <ul class="dropdown-menu text-small shadow">
-        <li>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-            <span class="material-symbols-outlined me-2" style="font-size: 18px;">person</span> <span class="ms-2">Perfil</span>
-        </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-        <a class="dropdown-item d-flex align-items-center text-danger" href="../controller/CerrarSesionController.php">
-            <span class="material-symbols-outlined me-2" style="font-size: 18px;">logout</span> <span class="ms-2">Cerrar Sesión</span>
-        </a>
-        </li>
-    </ul>
-    </div>
-</div>
+    <?php 
+            $paginaActiva = 'panel'; // cambia según la vista
+            include __DIR__ . '/../partials/sidebar.php'; 
+        ?>
 
 <div>
     <!-- TODO: Crear el panel de control de los coordinadores -->
