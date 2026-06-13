@@ -41,12 +41,12 @@
 
     <?php if (isset($_SESSION['id_coordinador'])): ?>
       <!-- Ya hay sesión — ir al dashboard correspondiente -->
-      <a href="<?php echo $_SESSION['rol'] === 'gestion' ? './DashboardGestionView.php' : './DashboardView.php'; ?>" id="btn-login">
+      <a href="<?php echo $_SESSION['rol'] === 'gestion' ? './GestionDashboardView.php' : './DashboardView.php'; ?>" id="btn-login">
           <span>Dashboard</span>
       </a>
     <?php else: ?>
         <!-- Sin sesión — ir al login -->
-        <a href="./login.php" id="btn-login">
+        <a href="./LoginView.php" id="btn-login">
             <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
             <span>Acceso</span>
         </a>

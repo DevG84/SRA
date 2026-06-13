@@ -43,10 +43,18 @@
         $semestre = trim($semestre);
         $materia = trim($materia);
         $texto = trim($texto);
+        $origen   = trim($_GET['origen'] ?? '');
+
+        $id_coordinador = "";
+        if (!isset($_SESSION['id_gestion']) && $origen !== 'publico') {
+            if (isset($_SESSION['id_coordinador'])) {
+                $id_coordinador = $_SESSION['id_coordinador'];
+            }
+        }
 
         // Llamamos al modelo
         try {
-            $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto);
+            $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto, $id_coordinador);
             echo json_encode($examenes);
         } catch (Exception $e) {
             error_log("Error en ExamenController: " . $e->getMessage());
@@ -57,9 +65,9 @@
 
         //METODO POST
 
-        if (!isset($_SESSION['id_coordinador'])) {
+        if (!isset($_SESSION['id_coordinador']) && !isset($_SESSION['id_gestion'])) {
             http_response_code(401);
-            echo json_encode([ "msj" => "No autorizado" ]);
+            echo json_encode([ "msj" => "No autorizado." ]);
             exit;
         }
 
@@ -70,10 +78,24 @@
             switch ($accion) {
                 
                 case 'eliminar':
+
                     $id_examen = $_POST['id_examen'] ?? '';
+
+                    if (!isset($_SESSION['id_gestion'])) {
+                        $examenActual = $model->getExamen($id_examen);
+                        if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                            $respuesta['cod'] = 0;
+                            $respuesta['msj'] = "No tienes permiso para eliminar este examen.";
+                            $respuesta['icono'] = "error";
+                            echo json_encode($respuesta);
+                            exit;
+                        }
+                    }
+
                     if (empty($id_examen)) {
                         throw new Exception("ID de examen no proporcionado");
                     }
+
                     $resultado = $model->deleteExamen($id_examen);
                     if ($resultado) {
                         $respuesta['cod'] = 1;
@@ -110,20 +132,28 @@
                         throw new Exception("ID de examen no proporcionado");
                     }
 
-                    $examenActual = $model->getExamen($id_examen);
-                    if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
-                        $respuesta['cod']   = 0;
-                        $respuesta['msj']   = "No tienes permiso para editar este examen";
-                        $respuesta['icono'] = "error";
-                        break;
+                    if (!isset($_SESSION['id_gestion'])) { 
+                        $examenActual = $model->getExamen($id_examen);
+                    
+                        $examenActual = $model->getExamen($id_examen);
+                        if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                            $respuesta['cod']   = 0;
+                            $respuesta['msj']   = "No tienes permiso para editar este examen";
+                            $respuesta['icono'] = "error";
+                            break;
+                        }
                     }
 
                     $datos = $_POST;
                     // Si no se subió archivo nuevo, conservar el actual
                     $datos['guia'] = guardarArchivo('guia', 'guias') ?? ($_POST['guia_actual'] ?? null);
                     $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos') ?? ($_POST['proyecto_actual'] ?? null);
+                    
+                    if (!isset($_SESSION['id_gestion'])) {
+                        $datos['id_coordinador'] = $_SESSION['id_coordinador'];
+                        }
+                        
                     $resultado = $model -> updateExamen($id_examen, $datos);
-
                     if ($resultado) {
                         $respuesta['cod'] = 1;
                         $respuesta['msj'] = "Examen actualizado";

@@ -61,7 +61,8 @@ function filtrarExamenes(){
       $.ajax({
         url: "../controller/ExamenController.php",
         method: 'GET',
-        data: { carrera, semestre, materia, texto }, // Enviar filtros al controlador
+        cache: false,
+        data: { carrera, semestre, materia, texto, origen: 'publico'}, // Enviar filtros al controlador
         dataType: 'json',
         success: (respuesta) => {
           cargarCards(respuesta);
