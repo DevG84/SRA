@@ -6,7 +6,7 @@
     // Si ya hay sesión activa, redirigir al dashboard
     if (isset($_SESSION['id_coordinador'])) {
         header('Location: ./DashboardView.php');
-        exit;
+        exit();
     }
 ?>
 
@@ -16,20 +16,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Regularización Académica</title>
-    <script defer src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
-    <script defer src="../assets/js/libs/JustValidate/justValidate.min.js"></script>
-    
-    <link rel="stylesheet" href="../assets/css/theme.scss">
+
     <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
-    <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/theme.scss">
+    <link rel="stylesheet" href="../assets/css/login.css">
+
+    <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
+    
+    <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
+    <script src="../assets/js/libs/JustValidate/justValidate.min.js"></script>
+    
     <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
 
-    <link rel="stylesheet" href="../assets/css/index.css">
-    <!-- JQuery -->
-  <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
-  <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="../assets/css/login.css">
-    <link rel="stylesheet" href="../assets/css/theme.scss">
     <script defer src="../assets/js/login.js"></script>
 </head>
 <body>

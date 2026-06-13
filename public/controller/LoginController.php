@@ -21,6 +21,7 @@ error_reporting(E_ALL);
 
         if ($coordinador) {
             $_SESSION['id_coordinador'] = $coordinador['id_coordinador'];
+            $_SESSION['nombre'] = $coordinador['nombre'];
             $respuesta['cod']   = 1;
             $respuesta['msj']   = "Bienvenido, " . $coordinador['nombre'];
             $respuesta['icono'] = "success";
