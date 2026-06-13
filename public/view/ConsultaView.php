@@ -1,6 +1,10 @@
 <?php
 // Vista pública — consulta de exámenes ETS
 // No requiere sesión — accesible para cualquier usuario
+
+  if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
 ?>
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
@@ -35,10 +39,18 @@
 
     <h1>Sistema de Consulta ETS</h1>
 
-    <a href="./LoginView.php" id="btn-login">
-      <i class="fa-solid fa-right-to-bracket"></i>
-      <span>Acceso coordinadores</span>
-    </a>
+    <?php if (isset($_SESSION['id_coordinador'])): ?>
+      <!-- Ya hay sesión — ir al dashboard correspondiente -->
+      <a href="<?php echo $_SESSION['rol'] === 'gestion' ? './DashboardGestionView.php' : './DashboardCoordinadoresView.php'; ?>" id="btn-login">
+          <span>Dashboard</span>
+      </a>
+    <?php else: ?>
+        <!-- Sin sesión — ir al login -->
+        <a href="./login.php" id="btn-login">
+            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+            <span>Acceso</span>
+        </a>
+    <?php endif; ?>
   </header>
 
     <!-- SECCIÓN DE FILTROS -->

@@ -1,40 +1,37 @@
 <?php
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+session_start();
+header("Content-Type: application/json; charset=utf-8");
+require_once __DIR__ . '/../model/LoginModel.php';
 
-    session_start();
+$correo   = $_POST['correo']   ?? '';
+$password = $_POST['password'] ?? '';
+$respuesta = [];
 
-    // Pasamos Model
-    require_once __DIR__ . '/../model/LoginModel.php';
+try {
+    $modelo  = new LoginModel();
+    $usuario = $modelo->login($correo, $password);
 
-    // Obtener Parametros
-    $correo = $_POST['correo'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    $respuesta = [];
-
-    try {
-        // Instanciar LoginModel
-        $modelo      = new LoginModel();
-        $coordinador = $modelo->login($correo, $password);
-
-        if ($coordinador) {
-            $_SESSION['id_coordinador'] = $coordinador['id_coordinador'];
-            $_SESSION['nombre'] = $coordinador['nombre'];
-            $respuesta['cod']   = 1;
-            $respuesta['msj']   = "Bienvenido, " . $coordinador['nombre'];
-            $respuesta['icono'] = "success";
-        } else {
-            $respuesta['cod']   = 0;
-            $respuesta['msj']   = "Correo o contraseña incorrectos";
-            $respuesta['icono'] = "error";
-        }
-    } catch (Exception $e) {
-        error_log("Error en LoginController: " . $e->getMessage());
+    if ($usuario) {
+        $_SESSION['id_coordinador'] = $usuario['id'];
+        $_SESSION['rol']            = $usuario['rol'];
+        $_SESSION['nombre']         = $usuario['nombre'] . ' ' . $usuario['apellido_p'];
+        $respuesta['cod']       = 1;
+        $respuesta['msj']       = "Bienvenido, " . $usuario['nombre'];
+        $respuesta['icono']     = "success";
+        $respuesta['redirigir'] = $usuario['rol'] === 'gestion'
+            ? './GestionDashboard.php'
+            : './dashboard.php';
+    } else {
         $respuesta['cod']   = 0;
-        $respuesta['msj']   = "Error interno del servidor";
+        $respuesta['msj']   = "Correo o contraseña incorrectos";
         $respuesta['icono'] = "error";
     }
+} catch (Exception $e) {
+    error_log("Error en LoginController: " . $e->getMessage());
+    $respuesta['cod']   = 0;
+    $respuesta['msj']   = "Error interno del servidor";
+    $respuesta['icono'] = "error";
+}
 
-    echo json_encode($respuesta);
+echo json_encode($respuesta);
