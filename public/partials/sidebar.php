@@ -10,6 +10,142 @@ function linkActivo($pagina, $paginaActiva) {
     return $pagina === $paginaActiva ? 'nav-link active d-flex align-items-center' : 'nav-link link-body-emphasis d-flex align-items-center';
 }
 ?>
+
+
+<style>
+#sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1020;
+    overflow: visible !important; 
+}
+
+.sidebar-transition {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+#toggle-sidebar {
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+#toggle-sidebar:hover {
+    opacity: 0.85;
+}
+
+#sidebar .nav-pills {
+    overflow-y: auto;
+    max-height: calc(100vh - 180px);
+    scrollbar-width: thin;
+}
+
+#sidebar .nav-pills .nav-link.active {
+    background-color: #66003D !important;
+    color: #ffffff !important;
+}
+
+#sidebar .nav-pills .nav-link.active .material-symbols-outlined {
+    color: #ffffff !important;
+}
+
+#sidebar .nav-pills .nav-link:not(.active):hover {
+    background-color: rgba(102, 0, 61, 0.15) !important;
+    color: #FFA6CB !important;
+}
+
+#sidebar .nav-pills .nav-link:not(.active):hover .material-symbols-outlined {
+    color: #FFA6CB !important;
+}
+
+.sidebar-collapsed {
+    width: 80px !important;
+}
+
+.sidebar-collapsed .nav-text,
+.sidebar-collapsed hr,
+.sidebar-collapsed .dropdown-toggle::after {
+    display: none !important;
+}
+
+.sidebar-collapsed #toggle-sidebar {
+    justify-content: center !important;
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-bottom: 30px !important;
+}
+
+.sidebar-collapsed .nav-pills .nav-link {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto !important; 
+    padding: 0 !important;
+    border-radius: var(--bs-nav-pills-border-radius, 0.375rem) !important; 
+}
+
+.sidebar-collapsed .nav-link {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0.6rem 0 !important;
+}
+
+.sidebar-collapsed .nav-pills .nav-link:not(.active):hover {
+    background-color: #66003D !important;
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+.sidebar-collapsed .nav-pills .nav-link:not(.active):hover .material-symbols-outlined {
+    color: #ffffff !important;
+}
+
+.sidebar-collapsed .material-symbols-outlined {
+    margin-right: 0 !important;
+}
+
+.sidebar-collapsed .dropdown {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.sidebar-collapsed .dropdown-toggle {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0.5rem 0 !important;
+    width: 100%;
+}
+
+.dropdown-item .material-symbols-outlined {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+#sidebar .dropdown-menu {
+    position: absolute !important;
+    top: auto !important;
+    left: 0 !important;
+    min-width: 210px !important;
+    z-index: 9999 !important;
+    background-color: #212529 !important;
+    border: 1px solid #495057 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.sidebar-collapsed .dropdown-menu {
+    left: 0 !important;
+    margin-bottom: 0px !important;
+    min-width: 190px !important;
+}
+</style>
+
 <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary sidebar-transition sidebar-collapsed" style="height: 100vh;">
 
     <a id="toggle-sidebar" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none" style="cursor: pointer;">
@@ -70,9 +206,10 @@ function linkActivo($pagina, $paginaActiva) {
 
     <hr>
 
-    <div class="dropdown">
-        <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="material-symbols-outlined me-2">account_circle</span>
+    <div class="dropdown" position-relative>
+        <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" 
+         data-bs-toggle="dropdown" aria-expanded="false" data-bs-popper="static">
+            <span class="material-symbols-outlined me-2">user_attributes</span>
             <strong class="nav-text"><?php echo $_SESSION['nombre'] ?? 'Desconocido'; ?></strong>
         </a>
         <ul class="dropdown-menu text-small shadow">
@@ -80,6 +217,12 @@ function linkActivo($pagina, $paginaActiva) {
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <span class="material-symbols-outlined me-2" style="font-size: 18px;">person</span>
                     <span class="ms-2">Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="../view/ConsultaView.php">
+                    <span class="material-symbols-outlined me-2" style="font-size: 18px;">widgets</span>
+                    <span class="ms-2">Consultar Exámenes</span>
                 </a>
             </li>
             <li><hr class="dropdown-divider"></li>
