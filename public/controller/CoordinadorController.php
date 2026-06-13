@@ -69,6 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             case 'eliminar':
                 $id        = $_POST['id_coordinador'] ?? '';
+
+                if ($modelo->tieneExamenes($id)) {
+                    $respAX['cod']   = 0;
+                    $respAX['msj']   = "No se puede eliminar — tiene exámenes asignados";
+                    $respAX['icono'] = "warning";
+                    break;
+                }
+
                 $resultado = $modelo->deleteCoordinador($id);
                 if ($resultado) {
                     $respAX['cod']   = 1;

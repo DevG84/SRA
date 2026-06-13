@@ -86,4 +86,12 @@ class CoordinadorModel {
         $stmt->execute([':id' => $id]);
         return $stmt->rowCount();
     }
+
+    public function tieneExamenes($id) {
+    $stmt = $this->db->prepare(
+        "SELECT COUNT(*) FROM examen WHERE id_coordinador = :id"
+    );
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetchColumn() > 0;
+}
 }

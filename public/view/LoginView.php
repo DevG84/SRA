@@ -82,7 +82,7 @@
                 <label class="form-check-label" for="exampleCheck1">Recordar mi usuario</label>
             </div>
             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-            <a href="" class="loginlabel aria-label">Regístrate</a>
+            <a href="./RecuperarContrasenaView.php" class="text-muted" style="font-size:0.875rem;">¿Olvidaste tu contraseña?</a>
         </form>
     </main>
     <footer>
