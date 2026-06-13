@@ -10,9 +10,27 @@ if ($_SESSION['rol'] !== 'gestion') {
     exit;
 }
 
-// Cargar departamentos para el select
+$id_coordinador = $_GET['id'] ?? null;
+
+if (!$id_coordinador) {
+    header('Location: ./CoordinadoresView.php');
+    exit;
+}
+
 require_once __DIR__ . '/../../includes/db.php';
 $conn = (new Connection)->connect();
+
+// Cargar datos del coordinador
+$stmt = $conn->prepare("SELECT * FROM coordinador WHERE id_coordinador = :id");
+$stmt->execute([':id' => $id_coordinador]);
+$coordinador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$coordinador) {
+    header('Location: ./CoordinadoresView.php');
+    exit;
+}
+
+// Cargar departamentos
 $stmt = $conn->prepare("SELECT id_departamento, nombre FROM departamento ORDER BY nombre ASC");
 $stmt->execute();
 $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +40,7 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crear Coordinador — SRA ESCOM</title>
+  <title>Editar Coordinador — SRA ESCOM</title>
   <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -33,7 +51,7 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <script src="../assets/js/libs/JustValidate/justValidate.min.js"></script>
   <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
   <script defer src="../assets/js/dashboard.js"></script>
-  <script defer src="../assets/js/crearCoordinador.js"></script>
+  <script defer src="../assets/js/editarCoordinador.js"></script>
 </head>
 <body>
 
@@ -44,25 +62,28 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <div id="main-content">
     <div id="contenedor-form">
-      <h2><i class="fa-solid fa-user-plus"></i> Registrar Coordinador</h2>
+      <h2><i class="fa-solid fa-user-pen"></i> Editar Coordinador</h2>
 
-      <form id="form-crear-coordinador" autocomplete="off">
+      <form id="form-editar-coordinador" autocomplete="off">
 
         <div class="row g-3">
 
           <div class="col-12 col-md-4">
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre(s)">
+            <input type="text" id="nombre" name="nombre" class="form-control"
+                   value="<?php echo htmlspecialchars($coordinador['nombre']); ?>">
           </div>
 
           <div class="col-12 col-md-4">
             <label for="apellido_p">Apellido Paterno</label>
-            <input type="text" id="apellido_p" name="apellido_p" class="form-control">
+            <input type="text" id="apellido_p" name="apellido_p" class="form-control"
+                   value="<?php echo htmlspecialchars($coordinador['apellido_p']); ?>">
           </div>
 
           <div class="col-12 col-md-4">
             <label for="apellido_m">Apellido Materno</label>
-            <input type="text" id="apellido_m" name="apellido_m" class="form-control">
+            <input type="text" id="apellido_m" name="apellido_m" class="form-control"
+                   value="<?php echo htmlspecialchars($coordinador['apellido_m'] ?? ''); ?>">
           </div>
 
           <div class="col-12 col-md-6">
@@ -70,7 +91,8 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <select id="id_departamento" name="id_departamento" class="form-select">
               <option value="">Seleccionar Departamento</option>
               <?php foreach ($departamentos as $dep): ?>
-                <option value="<?php echo $dep['id_departamento']; ?>">
+                <option value="<?php echo $dep['id_departamento']; ?>"
+                  <?php echo $dep['id_departamento'] == $coordinador['id_departamento'] ? 'selected' : ''; ?>>
                   <?php echo htmlspecialchars($dep['nombre']); ?>
                 </option>
               <?php endforeach; ?>
@@ -79,26 +101,18 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
           <div class="col-12 col-md-6">
             <label for="correo">Correo</label>
-            <input type="email" id="correo" name="correo" class="form-control" placeholder="correo@ipn.mx">
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" class="form-control">
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label for="confirmar_contrasena">Confirmar Contraseña</label>
-            <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" class="form-control">
+            <input type="email" id="correo" name="correo" class="form-control"
+                   value="<?php echo htmlspecialchars($coordinador['correo']); ?>">
           </div>
 
         </div>
 
-        <input type="hidden" name="accion" value="agregar">
+        <input type="hidden" name="accion" value="editar">
+        <input type="hidden" name="id_coordinador" value="<?php echo $id_coordinador; ?>">
 
         <div class="mt-3">
           <button type="submit" id="btn-crear">
-            <i class="fa-solid fa-plus"></i> Registrar coordinador
+            <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
           </button>
           <a href="./CoordinadoresView.php" class="btn btn-secondary ms-2">Cancelar</a>
         </div>
