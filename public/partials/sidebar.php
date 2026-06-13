@@ -44,12 +44,14 @@ function linkActivo($pagina, $paginaActiva) {
                 <span class="nav-text">Reportes</span>
             </a>
         </li>
+        <?php if ($rol === 'gestion'): ?>
         <li>
             <a href="./CoordinadoresView.php" class="<?php echo linkActivo('coordinadores', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">manage_accounts</span>
                 <span class="nav-text">Coordinadores</span>
             </a>
         </li>
+        <?php endif; ?>
         <li>
             <a href="./AlumnosView.php" class="<?php echo linkActivo('alumnos', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">history_edu</span>
@@ -58,7 +60,7 @@ function linkActivo($pagina, $paginaActiva) {
         </li>
         <?php if ($rol === 'gestion'): ?>
         <li>
-            <a href="./GestionDashboard.php" class="<?php echo linkActivo('gestion', $paginaActiva); ?>">
+            <a href="./GestionDashboardView.php" class="<?php echo linkActivo('gestion', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">admin_panel_settings</span>
                 <span class="nav-text">Gestión</span>
             </a>

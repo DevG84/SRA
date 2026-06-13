@@ -31,32 +31,31 @@ if ($examen['id_coordinador'] != $_SESSION['id_coordinador']) {
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Editar Examen — SRA ESCOM</title>
 
-  <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Reutilizamos el mismo CSS -->
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/crearExamen.css">
+
+  <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
+  <script defer src="../assets/js/dashboard.js"></script>
 </head>
 
 <body>
 
-  <header id="header">
-    <div class="logo">
-      <img src="../assets/img/logo_ipn.png" alt="Logo IPN">
-    </div>
-    <h1>Sistema de Consulta ETS</h1>
-    <div class="logo">
-      <img src="../assets/img/logo_escom_blanco.png" alt="Logo ESCOM">
-    </div>
-  </header>
+  <?php 
+        $paginaActiva = ''; // cambia según la vista
+        include __DIR__ . '/../partials/sidebar.php'; 
+    ?>
 
-  <main style="padding: 0 0.75rem;">
+  <div id="main-content">
     <div id="contenedor-form">
 
       <h2><i class="fa-solid fa-calendar-pen"></i> Editar Examen ETS</h2>
@@ -189,7 +188,7 @@ if ($examen['id_coordinador'] != $_SESSION['id_coordinador']) {
 
       </form>
     </div>
-  </main>
+  </div>
 
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
   <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
