@@ -77,7 +77,7 @@ function linkActivo($pagina, $paginaActiva) {
         </a>
         <ul class="dropdown-menu text-small shadow">
             <li>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="./PerfilView.php">
                     <span class="material-symbols-outlined me-2" style="font-size: 18px;">person</span>
                     <span class="ms-2">Perfil</span>
                 </a>
