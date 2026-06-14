@@ -51,12 +51,14 @@ function linkActivo($pagina, $paginaActiva) {
                 <span class="nav-text">Coordinadores</span>
             </a>
         </li>
+        <?php endif; ?>
         <li>
             <a href="./AlumnosView.php" class="<?php echo linkActivo('alumnos', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">history_edu</span>
                 <span class="nav-text">Alumnos</span>
             </a>
         </li>
+        <?php if ($rol === 'gestion'): ?>
         <li>
             <a href="./GestionDashboardView.php" class="<?php echo linkActivo('gestion', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">admin_panel_settings</span>
