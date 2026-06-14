@@ -83,6 +83,11 @@ require_once __DIR__ . '/../../includes/auth.php';
               </tbody>
             </table>
           </div>
+        <div class="modal-footer">
+            <a id="btn-exportar-pdf" href="#" target="_blank" class="btn-accion">
+                <i class="fa-solid fa-file-pdf"></i> Exportar PDF
+            </a>
+        </div>
         </div>
       </div>
     </div>

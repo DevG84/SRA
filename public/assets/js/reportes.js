@@ -58,6 +58,7 @@ $(document).ready(() => {
     // Abrir modal con alumnos inscritos
     window.verReporte = function(id_examen, materia) {
         document.getElementById("modal-titulo").textContent = "Alumnos registrados — " + materia;
+        document.getElementById("btn-exportar-pdf").href = "../controller/ExportarReporteController.php?id_examen=" + id_examen;
         document.getElementById("tbody-alumnos").innerHTML =
             '<tr><td colspan="3" class="texto-center">Cargando...</td></tr>';
 
