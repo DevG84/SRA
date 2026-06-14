@@ -109,12 +109,27 @@ function crearTarjeta(examen) {
     `;
 }
 
+function accionesTarjetas() {
+    const cantidadSeleccionados = $('.chk-seleccionar-examen:checked').length;
+    const btnsVarios = $('#btnsVarios');
+    const btnVarios = $('#btn-eliminar-varios');
+
+    if (cantidadSeleccionados > 0) {
+        btnVarios.removeClass('deshabilitado').prop('disabled', false);
+        btnsVarios.show();
+    } else {
+        btnVarios.addClass('deshabilitado').prop('disabled', true);
+        btnsVarios.hide();
+    }
+}
+
 function renderizarTarjetas(listaExamenes){
     const contenedorRow = $('#contenedor-examenes'); 
     contenedorRow.empty();
 
     if (listaExamenes.length === 0) {
         contenedorRow.html('<div class="col-12 text-center py-4"><p class="text-muted">No se encontraron exámenes asignados.</p></div>');
+        accionesTarjetas();
         return;
     }
 
@@ -122,6 +137,8 @@ function renderizarTarjetas(listaExamenes){
         const tarjetaHTML = crearTarjeta(examen);
         contenedorRow.append(tarjetaHTML);
     });
+
+    accionesTarjetas();
 }
 
 function filtrarExamenes(){
@@ -146,63 +163,54 @@ function filtrarExamenes(){
 }
 
 $(document).ready(function() {
-    
-    // Control lateral de interfaz
     $('#toggle-sidebar').on('click', function(e) {
         e.preventDefault();
         $('#sidebar').toggleClass('sidebar-collapsed');
     });
 
-    // Cargas e inicializaciones prioritarias de datos
     cargarCarreras();
     cargarMaterias('');
-    filtrarExamenes(); // Ejecuta la primera carga con filtros limpios
+    filtrarExamenes();
+    accionesTarjetas(); 
 
-    // Escuchadores del buscador por texto
     $("#btn-buscar").on("click", filtrarExamenes);
     
     $("#input-busqueda").on("keydown", function(e) {
         if (e.key === "Enter") filtrarExamenes();
     });
 
-    // Escuchadores rápidos para los combos Select comunes
     ["filtro-semestre", "filtro-materia"].forEach(id => {
         $(`#${id}`).on("change", filtrarExamenes);
     });
 
-    // Escuchador jerárquico para Carrera (Actualiza dropdown de materias + recarga datos)
     $("#filtro-carrera").on("change", function() {
         cargarMaterias($(this).val()); 
         filtrarExamenes(); 
     });
 
-    // Escuchador dinámico para selección múltiple (Checkboxes)
     $('#contenedor-examenes').on('change', '.chk-seleccionar-examen', function() {
         const checkbox = $(this);
         const tarjeta = checkbox.closest('article');
 
+        if (checkbox.is(':checked')) {
+            tarjeta.addClass('card-seleccionada');
+        } else {
+            tarjeta.removeClass('card-seleccionada');
+        }
+
+        const cantidadSeleccionados = $('.chk-seleccionar-examen:checked').length;
+
         const todosLosBtnEditar = $('#contenedor-examenes').find('.btn-editar-examen');
         const todosLosBtnEliminar = $('#contenedor-examenes').find('.btn-eliminar-examen');
 
-        if (checkbox.is(':checked')) {
-            tarjeta.addClass('card-seleccionada');
+        if (cantidadSeleccionados > 0) {
             todosLosBtnEditar.addClass('deshabilitado').prop('disabled', true);
             todosLosBtnEliminar.addClass('deshabilitado').prop('disabled', true);
         } else {
-            tarjeta.removeClass('card-seleccionada');
-            
-            // Verificamos si aún queda algún otro checkbox activo en la página
-            const checked = $('.chk-seleccionar-examen:checked').length;
-            if (checked === 0) {
-                todosLosBtnEditar.removeClass('deshabilitado').prop('disabled', false);
-                todosLosBtnEliminar.removeClass('deshabilitado').prop('disabled', false);
-            }
+            todosLosBtnEditar.removeClass('deshabilitado').prop('disabled', false);
+            todosLosBtnEliminar.removeClass('deshabilitado').prop('disabled', false);
         }
-    });
 
-    // Escuchador para botones de acciones masivas compartidas
-    $('#contenedor-examenes').on('click', '.btn-accion-masiva', function() {
-        const idExamen = $(this).data('id');
-        console.log("Procesando acción masiva para el examen ID:", idExamen);
+        accionesTarjetas(); 
     });
 });

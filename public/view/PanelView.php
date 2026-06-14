@@ -33,6 +33,7 @@ require_once __DIR__ . '/../../includes/auth.php';
 
     <main class="flex-grow-1 p-4" style="overflow-x: hidden;">
         <h1 class="h1">Panel de control</h1>
+        <h4 class="h4 mt-3">Buscar</h4>
         <div class="contenedor-controles">
             <section id="seccion-filtros">
                 <!-- Fila de selects: Carrera, Semestre, Materia -->
@@ -85,8 +86,8 @@ require_once __DIR__ . '/../../includes/auth.php';
                     >
                     </div>
                     <div class="d-grid col-12 col-md-3">
-                        <button type="button" class="btn btn-primary" id="btn-buscar" type="button">
-                            <span class="material-symbols-outlined">search</span>
+                        <button type="button" class="btn btn-primary" id="btn-buscar">
+                            <span class="material-symbols-outlined btn-icon">search</span>
                             Buscar
                         </button>
                     </div>
@@ -94,7 +95,27 @@ require_once __DIR__ . '/../../includes/auth.php';
 
                 </section>
         </div>
-        <h5 class="t2 h5">Tus materias:</h5>
+        <h4 class="h4 mt-3">Otros controles</h4>
+        <div class="contenedor-controles-2 mt-1 mb-3">
+            <section class="seccion-botones d-flex justify-content-start">
+                <button type="button" class="btn btn-warning" id="btn-crear">
+                    <span class="material-symbols-outlined btn-icon">add</span>
+                    Crear nuevo examen
+                </button>
+            </section>
+        </div>
+
+        <div class="materias-control d-flex justify-content-between align-items-center mb-3">
+            <h5 class="t2 h5 m-0">Tus materias:</h5>
+            
+            <div id="btnsVarios">
+                <button type="button" class="btn btn-secondary" id="btn-eliminar-varios">
+                    <span class="material-symbols-outlined btn-icon">delete</span>
+                    Eliminar
+                </button>
+            </div>
+        </div>
+
         <section class="row g-3" id="contenedor-tarjetas">
             <div class="" id="contenedor-examenes"></div>
         </section>
