@@ -1,5 +1,3 @@
-@import url('./theme.scss');
-
 body {
     display: flex;
 }
@@ -109,4 +107,90 @@ body {
 .dropdown-item .material-symbols-outlined {
     font-size: 20px;
     vertical-align: middle;
+}
+
+/* ── Contenido principal ── */
+#main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+#bienvenida {
+    margin-bottom: 2rem;
+}
+
+#bienvenida h2 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+/* ── Tarjetas de estadísticas ── */
+.stat-card {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: #66003D;
+}
+
+.stat-numero {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #FFA6CB;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--bs-secondary-color);
+}
+
+/* ── Accesos rápidos ── */
+#accesos-rapidos {
+    margin-top: 2.5rem;
+}
+
+#accesos-rapidos h5 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.acceso-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: var(--bs-body-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.acceso-card:hover {
+    background-color: #66003D;
+    color: #ffffff;
+    border-color: #66003D;
+}
+
+.acceso-card i {
+    font-size: 1.25rem;
 }

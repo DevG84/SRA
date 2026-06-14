@@ -33,20 +33,22 @@
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         
         // Obtener Parametros
-        $carrera = $_GET['carrera'] ?? '';
-        $semestre = $_GET['semestre'] ?? '';
-        $materia = $_GET['materia'] ?? '';
-        $texto = $_GET['texto'] ?? '';
+        $carrera     = $_GET['carrera']     ?? '';
+        $semestre    = $_GET['semestre']    ?? '';
+        $materia     = $_GET['materia']     ?? '';
+        $texto       = $_GET['texto']       ?? '';
+        $coordinador = $_GET['coordinador'] ?? '';
 
         //Limpiamos datos
-        $carrera = trim($carrera);
-        $semestre = trim($semestre);
-        $materia = trim($materia);
-        $texto = trim($texto);
+        $carrera     = trim($carrera);
+        $semestre    = trim($semestre);
+        $materia     = trim($materia);
+        $texto       = trim($texto);
+        $coordinador = trim($coordinador);
 
         // Llamamos al modelo
         try {
-            $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto);
+            $examenes = $model->getExamenes($carrera, $semestre, $materia, $texto, $coordinador);
             echo json_encode($examenes);
         } catch (Exception $e) {
             error_log("Error en ExamenController: " . $e->getMessage());

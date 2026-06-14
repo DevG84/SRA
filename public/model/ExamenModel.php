@@ -10,9 +10,10 @@ class ExamenModel {
 
     //JOINS necesarios
 
-    public function getExamenes($carrera = '', $semestre = '', $materia = '', $texto = '') {
-        $sql = "SELECT 
+    public function getExamenes($carrera = '', $semestre = '', $materia = '', $texto = '', $coordinador = '') {
+        $sql = "SELECT
                     e.id_examen,
+                    e.id_coordinador,
                     m.nombre            AS materia,
                     c.alias             AS carrera,
                     co.nombre           AS coordNombre,
@@ -54,6 +55,10 @@ class ExamenModel {
         if ($texto !== '') {
             $sql .= " AND (m.nombre LIKE :texto OR c.alias LIKE :texto OR co.nombre LIKE :texto OR co.apellido_p LIKE :texto OR co.apellido_m LIKE :texto)";
             $params[':texto'] = "%{$texto}%";
+        }
+        if ($coordinador !== '') {
+            $sql .= " AND e.id_coordinador = :coordinador";
+            $params[':coordinador'] = $coordinador;
         }
         
 
