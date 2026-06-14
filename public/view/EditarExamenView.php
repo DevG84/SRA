@@ -20,11 +20,11 @@ $stmt->execute([':id' => $id_examen]);
 $examen = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$examen) {
-    header('Location: ./dashboard.php');
+    header('Location: ./DashboardView.php');
     exit;
 }
 
-if ($examen['id_coordinador'] != $_SESSION['id_coordinador']) {
+if ($_SESSION['rol'] !== 'gestion' && $examen['id_coordinador'] != $_SESSION['id_coordinador']) {
     header('Location: ./dashboard.php');
     exit;
 }
@@ -130,6 +130,19 @@ if ($examen['id_coordinador'] != $_SESSION['id_coordinador']) {
                    value="<?php echo htmlspecialchars($examen['horario']); ?>">
           </div>
 
+          <input type="hidden" id="data-id_coordinador" value="<?php echo $examen['id_coordinador']; ?>">
+
+          <?php if ($_SESSION['rol'] === 'gestion'): ?>
+            <div class="col-12 col-md-6">
+              <label for="id_coordinador">Asignar a Coordinador</label>
+              <select id="id_coordinador" name="id_coordinador" class="form-select">
+                <option value="">Seleccionar Coordinador</option>
+              </select>
+            </div>
+          <?php else: ?>
+            <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
+          <?php endif; ?>
+
           <!-- Nota — value prellenado -->
           <div class="col-12 col-md-6">
             <label for="nota">Nota <span class="text-muted">(opcional)</span></label>
@@ -171,8 +184,6 @@ if ($examen['id_coordinador'] != $_SESSION['id_coordinador']) {
 
         </div>
 
-        <!-- Campos ocultos -->
-        <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
         <!-- accion editar e id del examen -->
         <input type="hidden" name="accion"     value="editar">
         <input type="hidden" name="id_examen"  value="<?php echo $id_examen; ?>">

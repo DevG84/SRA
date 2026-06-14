@@ -87,6 +87,27 @@ $(document).ready(() => {
         });
     }
 
+    // Cargar coordinadores (solo si existe el select — rol gestión)
+    function cargarCoordinadores() {
+        const select = document.getElementById("id_coordinador");
+        if (!select) return; // no es gestión, no hace nada
+
+        $.ajax({
+            url: "../controller/CoordinadorController.php",
+            method: 'GET',
+            dataType: 'json',
+            success: (coordinadores) => {
+                coordinadores.forEach(c => {
+                    const option = document.createElement("option");
+                    option.value = c.id_coordinador;
+                    option.textContent = c.nombre + " " + c.apellido_p;
+                    select.appendChild(option);
+                });
+            },
+            error: () => {}
+        });
+    }
+
     // EVENTOS
     document.getElementById("id_carrera").addEventListener("change", cargarMaterias);
     document.getElementById("id_semestre").addEventListener("change", cargarMaterias);
@@ -96,6 +117,10 @@ $(document).ready(() => {
         errorFieldCssClass: "is-invalid",
         successFieldCssClass: "is-valid"
     });
+
+    if (document.getElementById("id_coordinador")) {
+        validator.addField("#id_coordinador", [{ rule: "required", errorMessage: "Selecciona un coordinador" }]);
+    }
 
     validator
         .addField("#id_carrera",  [{ rule: "required", errorMessage: "Selecciona una carrera" }])
@@ -133,4 +158,5 @@ $(document).ready(() => {
     // Cargar datos al iniciar
     cargarCarreras();
     cargarSalones();
+    cargarCoordinadores();
 });

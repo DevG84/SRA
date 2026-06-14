@@ -95,6 +95,19 @@ require_once __DIR__ . '/../../includes/auth.php';
             <input type="text" id="horario" name="horario" class="form-control" placeholder="ej. 8:00 a 10:00">
           </div>
 
+          <?php if ($_SESSION['rol'] === 'gestion'): ?>
+            <!-- Gestión puede asignar a cualquier coordinador -->
+            <div class="col-12 col-md-6">
+              <label for="id_coordinador">Asignar a Coordinador</label>
+              <select id="id_coordinador" name="id_coordinador" class="form-select">
+                <option value="">Seleccionar Coordinador</option>
+              </select>
+            </div>
+          <?php else: ?>
+            <!-- Coordinador normal — su propio ID oculto -->
+            <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
+          <?php endif; ?>
+
           <div class="col-12 col-md-6">
             <label for="nota">Nota <span class="text-muted">(opcional)</span></label>
             <input type="text" id="nota" name="nota" class="form-control">
@@ -111,8 +124,7 @@ require_once __DIR__ . '/../../includes/auth.php';
           </div>
 
         </div>
-
-        <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador'] ?? ''; ?>">
+        
         <input type="hidden" name="accion" value="agregar">
 
         <div class="mt-3">

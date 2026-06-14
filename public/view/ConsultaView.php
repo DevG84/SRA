@@ -41,7 +41,7 @@
 
     <?php if (isset($_SESSION['id_coordinador'])): ?>
       <!-- Ya hay sesión — ir al dashboard correspondiente -->
-      <a href="<?php echo $_SESSION['rol'] === 'gestion' ? './DashboardGestionView.php' : './DashboardView.php'; ?>" id="btn-login">
+      <a href="<?php echo $_SESSION['rol'] === 'gestion' ? './GestionDashboardView.php' : './DashboardView.php'; ?>" id="btn-login">
           <span>Dashboard</span>
       </a>
     <?php else: ?>

@@ -93,6 +93,29 @@ $(document).ready(() => {
         });
     }
 
+    function cargarCoordinadores() {
+        const select = document.getElementById("id_coordinador");
+        if (!select) return;
+
+        const idActual = document.getElementById("data-id_coordinador").value;
+
+        $.ajax({
+            url: "../controller/CoordinadorController.php",
+            method: 'GET',
+            dataType: 'json',
+            success: (coordinadores) => {
+                coordinadores.forEach(c => {
+                    const option = document.createElement("option");
+                    option.value = c.id_coordinador;
+                    option.textContent = c.nombre + " " + c.apellido_p;
+                    if (c.id_coordinador == idActual) option.selected = true;
+                    select.appendChild(option);
+                });
+            },
+            error: () => {}
+        });
+}
+
     // Limpiar archivo actual
     function limpiarArchivo(campo, campoActual, parrafo) {
         document.getElementById(campoActual).value = "";
@@ -109,6 +132,10 @@ $(document).ready(() => {
         errorFieldCssClass: "is-invalid",
         successFieldCssClass: "is-valid"
     });
+
+    if (document.getElementById("id_coordinador")) {
+        validator.addField("#id_coordinador", [{ rule: "required", errorMessage: "Selecciona un coordinador" }]);
+    }
 
     validator
         .addField("#id_carrera",  [{ rule: "required", errorMessage: "Selecciona una carrera" }])
@@ -146,5 +173,6 @@ $(document).ready(() => {
     // Inicio
     cargarCarreras();
     cargarSalones();
+    cargarCoordinadores();
 
 });
