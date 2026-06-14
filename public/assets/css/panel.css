@@ -1,112 +1,148 @@
-@import url('./theme.scss');
-
 body {
+    display: flex;
+    background-color: var(--bs-body-bg);
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.contenedor-controles {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bs-tertiary-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.t2 {
+    margin-top: 20px;
+}
+
+.d-grid #btn-buscar {
+    height: 100% !important;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* --- ISC --- */
+.card-isc .texto-materia {
+    color: #0d6efd !important;
+}
+.card-isc .icono-carrera {
+    color: #0d6efd;
+}
+.card-isc {
+    border-left: 4px solid #0d6efd !important;
+}
+.card-isc:hover {
+    border-color: #0d6efd !important;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* IIA */
+.card-iia .texto-materia {
+    color: #04d473 !important;
+}
+.card-iia .icono-carrera {
+    color: #04d473;
+}
+.card-iia {
+    border-left: 4px solid #04d473 !important;
+}
+.card-iia:hover {
+    border-color: #04d473 !important;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.25) !important;
+}
+
+/* LCD */
+.card-lcd .texto-materia {
+    color: #ffc107 !important;
+}
+.card-lcd .icono-carrera {
+    color: #ffc107;
+}
+.card-lcd {
+    border-left: 4px solid #ffc107 !important;
+}
+.card-lcd:hover {
+    border-color: #ffc107 !important;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2) !important;
+}
+
+/* Selección checkbox*/
+.card-seleccionada {
+    border-color: var(--bs-primary) !important;
+    background-color: rgba(13, 110, 253, 0.04) !important;
+}
+
+.btn-editar-examen.deshabilitado,
+.btn-eliminar-examen.deshabilitado {
+    opacity: 0.15 !important;
+    pointer-events: none !important;
+}
+
+/* TARJETAS */
+.info-examen {
     display: flex;
 }
 
-.sidebar {
-    width: 280px; 
-    height: 100vh;
+.transition-card {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.2s ease, 
+                border-color 0.2s ease;
 }
 
-#toggle-sidebar {
-    user-select: none;
-    transition: opacity 0.2s ease;
+.transition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-#toggle-sidebar:hover {
-    opacity: 0.85;
+.detalles span {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
 }
 
-#sidebar .nav-pills .nav-link.active {
-    background-color: #66003D !important;
-    color: #ffffff !important;
+.detalles i {
+    color: #66003D; 
+    font-size: 0.95rem;
 }
 
-#sidebar .nav-pills .nav-link.active .material-symbols-outlined {
-    color: #ffffff !important;
+.card-title {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
 }
 
-#sidebar .nav-pills .nav-link:not(.active):hover {
-    background-color: rgba(102, 0, 61, 0.15) !important;
-    color: #FFA6CB !important;
+.acciones-examen {
+    display: inline-flex;
+    gap: 8px;
+    max-width: 85px;
 }
 
-#sidebar .nav-pills .nav-link:not(.active):hover .material-symbols-outlined {
-    color: #FFA6CB !important;
+.btn-editar-examen,
+.btn-eliminar-examen {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
 }
 
-.sidebar-collapsed .nav-pills .nav-link:not(.active):hover {
-    background-color: #66003D !important;
-    color: #ffffff !important;
-    opacity: 0.9;
+.btn-outline-primary:hover {
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.4);
 }
-
-.sidebar-collapsed .nav-pills .nav-link:not(.active):hover .material-symbols-outlined {
-    color: #ffffff !important;
-}
-
-.sidebar-collapsed .nav-pills .nav-link {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 48px !important;
-    height: 48px !important;
-    margin: 0 auto !important; 
-    padding: 0 !important;
-    border-radius: var(--bs-nav-pills-border-radius, 0.375rem) !important; 
-}
-
-.sidebar-transition {
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-}
-
-.sidebar-collapsed {
-    width: 80px !important;
-}
-
-.sidebar-collapsed .nav-text,
-.sidebar-collapsed hr,
-.sidebar-collapsed .dropdown-toggle::after {
-    display: none !important;
-}
-
-.sidebar-collapsed .nav-link {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    padding: 0.6rem 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-.sidebar-collapsed #toggle-sidebar {
-    justify-content: center !important;
-    width: 100% !important;
-    margin-right: 0 !important;
-    margin-bottom: 30px !important;
-}
-
-.sidebar-collapsed .dropdown {
-    display: flex !important;
-    justify-content: center !important;
-}
-
-.sidebar-collapsed .dropdown-toggle {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 0.5rem 0 !important;
-    width: 100%;
-}
-
-.sidebar-collapsed .material-symbols-outlined {
-    margin-right: 0 !important;
-}
-
-.dropdown-item .material-symbols-outlined {
-    font-size: 20px;
-    vertical-align: middle;
+.btn-outline-danger:hover {
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.4);
 }

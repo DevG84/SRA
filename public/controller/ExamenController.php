@@ -46,7 +46,7 @@
         $origen   = trim($_GET['origen'] ?? '');
 
         $id_coordinador = "";
-        if (!isset($_SESSION['id_gestion']) && $origen !== 'publico') {
+        if ($_SESSION['rol'] !== 'gestion' && $origen !== 'publico') {
             if (isset($_SESSION['id_coordinador'])) {
                 $id_coordinador = $_SESSION['id_coordinador'];
             }

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_coordinador'])) {
+if (!isset($_SESSION['id_coordinador']) || isset($_SESSION['id_gestion'])) {
     header('Location: ./LoginView.php');
     exit();
 }

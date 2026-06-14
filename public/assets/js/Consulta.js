@@ -127,7 +127,7 @@ function filtrarExamenes(){
                 <i class="fa-solid fa-location-dot icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Salón/Laboratorio</p>
-                  <p class="valor">${examen.salon}</p>
+                  <p class="valor">${examen.edificio}${examen.salon}</p>
                 </div>
               </div>
 

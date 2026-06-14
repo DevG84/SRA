@@ -13,8 +13,9 @@ class MateriaModel {
 
     // Trae todas las materias ordenadas alfabéticamente
     public function getMaterias($id_carrera = '', $id_semestre = '') {
+        $params = [];
 
-        $sql = "SELECT id_materia, nombre FROM materia WhERE 1=1";
+        $sql = "SELECT id_materia, nombre FROM materia WHERE 1=1";
 
         if($id_carrera !== '') {
             $sql .= " AND id_carrera = :carrera";
@@ -28,7 +29,7 @@ class MateriaModel {
 
         $sql .= " ORDER BY nombre ASC";
 
-            error_log("SQL: " . $sql . " | params: " . json_encode($params));
+        error_log("SQL: " . $sql . " | params: " . json_encode($params));
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
