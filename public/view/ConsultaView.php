@@ -13,7 +13,7 @@
   <!-- Para mejorar la accesibilidad y responsivo -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta ETS — SRA ESCOM</title>
-
+  <link rel="icon" type="image/svg+xml" href="../assets/img/sra_logo.svg">
   <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.min.css">
 

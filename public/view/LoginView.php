@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Regularización Académica</title>
-
+    <link rel="icon" type="image/svg+xml" href="../assets/img/sra_logo.svg">
     <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/theme.scss">
     <link rel="stylesheet" href="../assets/css/login.css">

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    
+    <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <linearGradient id="pencilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <filter id="iconShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect x="40" y="40" width="420" height="420" rx="80" fill="url(#boxGrad)" filter="url(#iconShadow)" />
+
+  <g opacity="0.25" stroke="url(#techGrad)" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M 60 140 L 140 140 L 180 180" />
+    <circle cx="60" cy="140" r="6" fill="#06b6d4" />
+    <circle cx="140" cy="140" r="4" fill="#3b82f6" />
+    
+    <path d="M 440 360 L 360 360 L 320 320" />
+    <circle cx="440" cy="360" r="6" fill="#06b6d4" />
+    
+    <line x1="80" y1="320" x2="130" y2="280" />
+    <circle cx="80" cy="320" r="5" fill="#3b82f6" />
+    <circle cx="130" cy="280" r="5" fill="#06b6d4" />
+  </g>
+
+  <g transform="translate(10, 5)">
+    <rect x="140" y="110" width="200" height="270" rx="12" fill="#ffffff" />
+    
+    <g transform="translate(175, 145)" fill="url(#techGrad)">
+      <rect x="0" y="15" width="12" height="15" rx="2" />
+      <rect x="18" y="5" width="12" height="25" rx="2" />
+      <rect x="36" y="0" width="12" height="30" rx="2" />
+      <line x1="60" y1="20" x2="130" y2="20" stroke="#64748b" stroke-width="6" stroke-linecap="round" />
+    </g>
+
+    <line x1="175" y1="215" x2="305" y2="215" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
+    <line x1="175" y1="245" x2="275" y2="245" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
+    
+    <circle cx="190" cy="295" r="12" fill="none" stroke="#10b981" stroke-width="4" />
+    <path d="M184 295 L189 300 L197 290" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="215" y1="295" x2="305" y2="295" stroke="#10b981" stroke-width="6" stroke-linecap="round" />
+    
+    <g transform="rotate(-20 270 270)">
+      <path d="M300 200 L325 200 L325 340 L300 340 Z" fill="url(#pencilGrad)" />
+      <path d="M300 185 H325 V200 H300 Z" fill="#f43f5e" />
+      <path d="M300 195 H325 V200 H300 Z" fill="#94a3b8" />
+      <path d="M300 340 L312.5 365 L325 340 Z" fill="#fde047" />
+      <path d="M308 356 L312.5 365 L317 356 Z" fill="#0f172a" />
+    </g>
+  </g>
+</svg>
