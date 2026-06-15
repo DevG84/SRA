@@ -25,7 +25,7 @@ if (!$examen) {
 }
 
 if ($_SESSION['rol'] !== 'gestion' && $examen['id_coordinador'] != $_SESSION['id_coordinador']) {
-    header('Location: ./dashboard.php');
+    header('Location: ./DashboardView.php');
     exit;
 }
 ?>
@@ -41,11 +41,9 @@ if ($_SESSION['rol'] !== 'gestion' && $examen['id_coordinador'] != $_SESSION['id
   <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/crearExamen.css">
 
   <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
-  <script defer src="../assets/js/dashboard.js"></script>
 </head>
 
 <body>
@@ -55,12 +53,17 @@ if ($_SESSION['rol'] !== 'gestion' && $examen['id_coordinador'] != $_SESSION['id
         include __DIR__ . '/../partials/sidebar.php'; 
     ?>
 
-  <div id="main-content">
-    <div id="contenedor-form">
+  <main id="main-content">
+
+      <a class="btn btn-dark btn-lg h3 back" href="./PanelView.php">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+          Regresar
+      </a>
 
       <h2><i class="fa-solid fa-calendar-pen"></i> Editar Examen ETS</h2>
 
-      <!-- CAMBIO: id del form -->
+      <div id="contenedor-form">
+      
       <form id="form-editar-examen" autocomplete="off" enctype="multipart/form-data">
 
         <div class="row g-3">
@@ -199,7 +202,7 @@ if ($_SESSION['rol'] !== 'gestion' && $examen['id_coordinador'] != $_SESSION['id
 
       </form>
     </div>
-  </div>
+  </main>
 
   <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
   <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>

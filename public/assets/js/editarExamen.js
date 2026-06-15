@@ -160,7 +160,7 @@ $(document).ready(() => {
                         text: respuesta.msj,
                         icon: respuesta.icono,
                         didDestroy: () => {
-                            if (respuesta.cod) window.location.href = "./dashboard.php";
+                            if (respuesta.cod) window.location.href = "./PanelView.php";
                         }
                     });
                 },

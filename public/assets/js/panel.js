@@ -326,24 +326,10 @@ $(document).ready(function() {
         accionesTarjetas(); 
     });
 
+    // CAMBIO: editar ya no muestra alerta de eliminación, redirige directo
     $('#contenedor-examenes').on('click', '.btn-editar-examen', function() {
         const idExamen = $(this).data('id');
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: `Vas a eliminar este de forma permanente.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-            background: '#212529',
-            color: '#fff'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                editarExamen(idExamen);
-            }
-        });
+        window.location.href = `./EditarExamenView.php?id=${idExamen}`;
     });
 
     $('#contenedor-examenes').on('click', '.btn-eliminar-examen', function() {

@@ -25,112 +25,106 @@ require_once __DIR__ . '/../controller/PerfilController.php';
     $paginaActiva = '';
     include __DIR__ . '/../partials/sidebar.php';
 ?>
-<div id="main-content">
-    <div id="bienvenida">
-        <h2><i class="fa-solid fa-user me-2"></i>Mi Perfil</h2>
-        <p class="text-muted">Información de tu cuenta</p>
-    </div>
+<main id="main-content">
 
-    <div class="row justify-content-center mt-4">
-        <div class="col-12 col-md-8 col-lg-6">
+    <!-- CAMBIO: un solo contenedor-form envolviendo todo, sin .row/.col que limitaban el ancho -->
+    <div id="contenedor-form">
 
-            <!-- Avatar y rol -->
-            <div class="text-center mb-4">
-                <div style="width:90px;height:90px;border-radius:50%;background:#6f42c1;display:flex;align-items:center;justify-content:center;margin:0 auto;">
-                    <i class="fa-solid fa-user" style="font-size:40px;color:white;"></i>
-                </div>
-                <h4 class="mt-3 mb-0">
-                    <?php echo htmlspecialchars($coordinador['nombre'] . ' ' . $coordinador['apellido_p'] . ' ' . ($coordinador['apellido_m'] ?? '')); ?>
-                </h4>
-                <span class="badge mt-1" style="background:#6f42c1;">
-                    <?php echo $_SESSION['rol'] === 'gestion' ? 'Gestión' : 'Coordinador'; ?>
-                </span>
-                <?php if (!empty($coordinador['departamento'])): ?>
-                    <p class="text-muted mt-2 mb-0">
-                        <i class="fa-solid fa-building"></i> <?php echo htmlspecialchars($coordinador['departamento']); ?>
-                    </p>
-                <?php endif; ?>
+        <!-- Avatar y rol -->
+        <div class="text-center mb-4">
+            <div style="width:90px;height:90px;border-radius:50%;background:#6f42c1;display:flex;align-items:center;justify-content:center;margin:0 auto;">
+                <i class="fa-solid fa-user" style="font-size:40px;color:white;"></i>
             </div>
-
-            <!-- Formulario de datos -->
-            <div id="contenedor-form" style="margin-bottom:1.5rem;">
-                <h2><i class="fa-solid fa-id-card"></i> Información personal</h2>
-
-                <form id="form-datos" autocomplete="off">
-                    <div class="row g-3">
-
-                        <div class="col-12 col-md-6">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control"
-                                   value="<?php echo htmlspecialchars($coordinador['nombre']); ?>">
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <label for="apellido_p">Apellido Paterno</label>
-                            <input type="text" id="apellido_p" name="apellido_p" class="form-control"
-                                   value="<?php echo htmlspecialchars($coordinador['apellido_p']); ?>">
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <label for="apellido_m">Apellido Materno</label>
-                            <input type="text" id="apellido_m" name="apellido_m" class="form-control"
-                                   value="<?php echo htmlspecialchars($coordinador['apellido_m'] ?? ''); ?>">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="correo">Correo</label>
-                            <input type="email" id="correo" name="correo" class="form-control"
-                                   value="<?php echo htmlspecialchars($coordinador['correo']); ?>">
-                        </div>
-
-                    </div>
-
-                    <input type="hidden" name="accion" value="actualizar_datos">
-
-                    <div class="mt-3">
-                        <button type="submit" id="btn-crear">
-                            <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Formulario de contraseña -->
-            <div id="contenedor-form">
-                <h2><i class="fa-solid fa-key"></i> Cambiar contraseña</h2>
-
-                <form id="form-contrasena" autocomplete="off">
-                    <div class="row g-3">
-
-                        <div class="col-12">
-                            <label for="contrasena_actual">Contraseña actual</label>
-                            <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-control">
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <label for="contrasena_nueva">Nueva contraseña</label>
-                            <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-control">
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <label for="contrasena_confirmar">Confirmar nueva contraseña</label>
-                            <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-control">
-                        </div>
-
-                    </div>
-
-                    <input type="hidden" name="accion" value="cambiar_contrasena">
-
-                    <div class="mt-3">
-                        <button type="submit" id="btn-crear">
-                            <i class="fa-solid fa-key"></i> Cambiar contraseña
-                        </button>
-                    </div>
-                </form>
-            </div>
-
+            <h4 class="mt-3 mb-0">
+                <?php echo htmlspecialchars($coordinador['nombre'] . ' ' . $coordinador['apellido_p'] . ' ' . ($coordinador['apellido_m'] ?? '')); ?>
+            </h4>
+            <span class="badge mt-1" style="background:#6f42c1;">
+                <?php echo $_SESSION['rol'] === 'gestion' ? 'Gestión' : 'Coordinador'; ?>
+            </span>
+            <?php if (!empty($coordinador['departamento'])): ?>
+                <p class="text-muted mt-2 mb-0">
+                    <i class="fa-solid fa-building"></i> <?php echo htmlspecialchars($coordinador['departamento']); ?>
+                </p>
+            <?php endif; ?>
         </div>
+
+        <!-- Formulario de datos -->
+        <h2><i class="fa-solid fa-id-card"></i> Información personal</h2>
+
+        <form id="form-datos" autocomplete="off">
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control"
+                           value="<?php echo htmlspecialchars($coordinador['nombre']); ?>">
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label for="apellido_p">Apellido Paterno</label>
+                    <input type="text" id="apellido_p" name="apellido_p" class="form-control"
+                           value="<?php echo htmlspecialchars($coordinador['apellido_p']); ?>">
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label for="apellido_m">Apellido Materno</label>
+                    <input type="text" id="apellido_m" name="apellido_m" class="form-control"
+                           value="<?php echo htmlspecialchars($coordinador['apellido_m'] ?? ''); ?>">
+                </div>
+
+                <div class="col-12">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" class="form-control"
+                           value="<?php echo htmlspecialchars($coordinador['correo']); ?>">
+                </div>
+
+            </div>
+
+            <input type="hidden" name="accion" value="actualizar_datos">
+
+            <div class="mt-3">
+                <button type="submit" id="btn-crear">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                </button>
+            </div>
+        </form>
+
+        <!-- CAMBIO: separador entre secciones, ya no es un contenedor-form propio -->
+        <hr class="my-4">
+
+        <!-- Formulario de contraseña -->
+        <h2><i class="fa-solid fa-key"></i> Cambiar contraseña</h2>
+
+        <form id="form-contrasena" autocomplete="off">
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <label for="contrasena_actual">Contraseña actual</label>
+                    <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-control">
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="contrasena_nueva">Nueva contraseña</label>
+                    <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-control">
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="contrasena_confirmar">Confirmar nueva contraseña</label>
+                    <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-control">
+                </div>
+
+            </div>
+
+            <input type="hidden" name="accion" value="cambiar_contrasena">
+
+            <div class="mt-3">
+                <button type="submit" id="btn-crear">
+                    <i class="fa-solid fa-key"></i> Cambiar contraseña
+                </button>
+            </div>
+        </form>
+
     </div>
-</div>
+</main>
 </body>
 </html>

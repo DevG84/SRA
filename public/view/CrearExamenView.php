@@ -27,7 +27,7 @@ require_once __DIR__ . '/../../includes/auth.php';
 <body>
 
     <?php
-    $paginaActiva = 'panel';
+    $paginaActiva = 'crear';
     include __DIR__ . '/../partials/sidebar.php';
     ?>
 
@@ -39,7 +39,7 @@ require_once __DIR__ . '/../../includes/auth.php';
         </a>
 
         <div id="contenedor-form">
-        
+
             <h2 class="h2"><i class="fa-solid fa-calendar-plus"></i> Crear Examen ETS</h2>
 
             <form id="form-crear-examen" autocomplete="off" enctype="multipart/form-data">
@@ -96,18 +96,18 @@ require_once __DIR__ . '/../../includes/auth.php';
                         </select>
                     </div>
 
-          <?php if ($_SESSION['rol'] === 'gestion'): ?>
-            <!-- Gestión puede asignar a cualquier coordinador -->
-            <div class="col-12 col-md-6">
-              <label for="id_coordinador">Asignar a Coordinador</label>
-              <select id="id_coordinador" name="id_coordinador" class="form-select">
-                <option value="">Seleccionar Coordinador</option>
-              </select>
-            </div>
-          <?php else: ?>
-            <!-- Coordinador normal — su propio ID oculto -->
-            <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
-          <?php endif; ?>
+                    <?php if ($_SESSION['rol'] === 'gestion'): ?>
+                        <!-- Gestión puede asignar a cualquier coordinador -->
+                        <div class="col-12 col-md-6">
+                            <label for="id_coordinador">Asignar a Coordinador</label>
+                            <select id="id_coordinador" name="id_coordinador" class="form-select">
+                                <option value="">Seleccionar Coordinador</option>
+                            </select>
+                        </div>
+                    <?php else: ?>
+                        <!-- Coordinador normal — su propio ID oculto -->
+                        <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
+                    <?php endif; ?>
 
                     <div class="col-12 col-md-6">
                         <label for="horario">Horario</label>
@@ -131,7 +131,6 @@ require_once __DIR__ . '/../../includes/auth.php';
 
                 </div>
 
-                <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador'] ?? ''; ?>">
                 <input type="hidden" name="accion" value="agregar">
 
                 <div class="mt-3">
@@ -142,18 +141,7 @@ require_once __DIR__ . '/../../includes/auth.php';
 
             </form>
         </div>
-        
-        <input type="hidden" name="accion" value="agregar">
-
-        <div class="mt-3">
-          <button type="submit" id="btn-crear">
-            <i class="fa-solid fa-plus"></i> Crear examen
-          </button>
-        </div>
-
-      </form>
-    </div>
-  </div>
+    </main>
 
 </body>
 

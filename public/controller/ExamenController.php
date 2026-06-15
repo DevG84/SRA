@@ -49,6 +49,7 @@
         $id_coordinador = "";
         $rolActual = $_SESSION['rol'] ?? ''; 
 
+        // CAMBIO: comparación corregida (antes: isset($_SESSION['rol']) != 'gestion', siempre true)
         if ($rolActual !== 'gestion' && $origen !== 'publico') {
             if (isset($_SESSION['id_coordinador'])) {
                 $id_coordinador = $_SESSION['id_coordinador'];
@@ -68,7 +69,7 @@
 
         //METODO POST
 
-        if (!isset($_SESSION['id_coordinador']) && !isset($_SESSION['id_gestion'])) {
+        if (!isset($_SESSION['id_coordinador'])) {
             http_response_code(401);
             echo json_encode([ "msj" => "No autorizado." ]);
             exit;
@@ -77,12 +78,16 @@
         $accion = $_POST['accion'] ?? '';
         $respuesta = [];
 
+        // CAMBIO: rol actual calculado una sola vez al inicio
+        $rolActual = $_SESSION['rol'] ?? '';
+
         try{
             switch ($accion) {
                 case 'eliminar':
                     $id_examen = $_POST['id_examen'] ?? '';
 
-                    if (isset($_SESSION['rol']) != 'gestion') {
+                    // CAMBIO: comparación corregida (antes: isset($_SESSION['rol']) != 'gestion', siempre true)
+                    if ($rolActual !== 'gestion') {
                         $examenActual = $model->getExamen($id_examen);
 
                         if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
@@ -121,7 +126,8 @@
 
                     $ids = array_map('intval', $_POST['ids']);
                     
-                    if (isset($_SESSION['rol']) != 'gestion') {
+                    // CAMBIO: comparación corregida (antes: isset($_SESSION['rol']) != 'gestion', siempre true)
+                    if ($rolActual !== 'gestion') {
                         foreach ($ids as $id) {
                             $examenActual = $model->getExamen($id);
 
@@ -179,9 +185,9 @@
                         throw new Exception("ID de examen no proporcionado");
                     }
 
-                    if (isset($_SESSION['rol']) != 'gestion') { 
-                        $examenActual = $model->getExamen($id_examen);
-                    
+                    // CAMBIO: comparación corregida (antes: isset($_SESSION['rol']) != 'gestion', siempre true)
+                    // CAMBIO: eliminada la llamada duplicada a getExamen()
+                    if ($rolActual !== 'gestion') {
                         $examenActual = $model->getExamen($id_examen);
                         if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
                             $respuesta['cod']   = 0;
@@ -196,9 +202,10 @@
                     $datos['guia'] = guardarArchivo('guia', 'guias') ?? ($_POST['guia_actual'] ?? null);
                     $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos') ?? ($_POST['proyecto_actual'] ?? null);
                     
-                    if (isset($_SESSION['rol']) != 'gestion') {
+                    // CAMBIO: comparación corregida (antes: isset($_SESSION['rol']) != 'gestion', siempre true)
+                    if ($rolActual !== 'gestion') {
                         $datos['id_coordinador'] = $_SESSION['id_coordinador'];
-                        }
+                    }
                         
                     $resultado = $model -> updateExamen($id_examen, $datos);
                     if ($resultado) {
