@@ -3,8 +3,18 @@ session_start();
 header("Content-Type: application/json; charset=utf-8");
 require_once __DIR__ . '/../model/CoordinadorModel.php';
 
+// Solo validar si es un usuario de gestión
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['verificar'])) {
+    if (isset($_SESSION['rol']) === 'gestion') {
+        echo json_encode(['es_gestion' => true]);
+    } else {
+        echo json_encode(['es_gestion' => false]);
+    }
+    exit;
+}
+
 // Solo gestión puede usar este controller
-if (!isset($_SESSION['id_coordinador']) || ($_SESSION['rol'] ?? '') !== 'gestion') {
+if ($_SESSION['rol'] !== 'gestion') {
     http_response_code(401);
     echo json_encode(['cod' => 0, 'msj' => 'No autorizado', 'icono' => 'error']);
     exit;
@@ -39,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     try {
         switch ($accion) {
-
             case 'agregar':
                 $resultado = $modelo->addCoordinador($_POST);
                 if ($resultado) {

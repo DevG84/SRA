@@ -6,29 +6,29 @@ require_once __DIR__ . '/../../includes/auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crear Examen — SRA ESCOM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Examen — SRA ESCOM</title>
 
-  <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/dashboard.css">
-  <link rel="stylesheet" href="../assets/css/crearExamen.css">
+    <link rel="stylesheet" href="../assets/css/libs/bootstrap-5.3.8/bootstrap.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/crearExamen.css">
 
-  <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
-  <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
-  <script src="../assets/js/libs/JustValidate/justValidate.min.js"></script>
-  <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
-  <script defer src="../assets/js/dashboard.js"></script>
-  <script defer src="../assets/js/crearExamen.js"></script>
+    <script src="../assets/js/libs/Jquery/jquery-4.0.min.js"></script>
+    <script src="../assets/js/libs/SweetAlert/sweetalert2.all.min.js"></script>
+    <script src="../assets/js/libs/JustValidate/justValidate.min.js"></script>
+    <script defer src="../assets/js/libs/bootstrap-5.3.8/bootstrap.bundle.js"></script>
+    <script defer src="../assets/js/crearExamen.js"></script>
 </head>
+
 <body>
 
-    <?php 
-        $paginaActiva = 'crear'; // cambia según la vista
-        include __DIR__ . '/../partials/sidebar.php'; 
+    <?php
+    $paginaActiva = 'panel';
+    include __DIR__ . '/../partials/sidebar.php';
     ?>
 
   <!-- Contenido principal -->
@@ -132,10 +132,8 @@ require_once __DIR__ . '/../../includes/auth.php';
             <i class="fa-solid fa-plus"></i> Crear examen
           </button>
         </div>
-
-      </form>
-    </div>
-  </div>
+</main>
 
 </body>
+
 </html>

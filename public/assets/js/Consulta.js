@@ -61,7 +61,8 @@ function filtrarExamenes(){
       $.ajax({
         url: "../controller/ExamenController.php",
         method: 'GET',
-        data: { carrera, semestre, materia, texto }, // Enviar filtros al controlador
+        cache: false,
+        data: { carrera, semestre, materia, texto, origen: 'publico'}, // Enviar filtros al controlador
         dataType: 'json',
         success: (respuesta) => {
           cargarCards(respuesta);
@@ -126,7 +127,7 @@ function filtrarExamenes(){
                 <i class="fa-solid fa-location-dot icono"></i>
                 <div class="contenido">
                   <p class="etiqueta">Salón/Laboratorio</p>
-                  <p class="valor">${examen.salon}</p>
+                  <p class="valor">${examen.edificio}${examen.salon}</p>
                 </div>
               </div>
 
