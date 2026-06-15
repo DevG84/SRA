@@ -35,7 +35,7 @@ function cargarMaterias(idCarrera) {
     });
 }
 
-function crearTarjeta(examen) {
+function crearTarjeta(examen, gestion) {
     const fechaFormateada = new Date(examen.fecha + "T00:00:00").toLocaleDateString("es-MX", {
         day: '2-digit',
         month: 'short',
@@ -70,6 +70,13 @@ function crearTarjeta(examen) {
             break;
     }
 
+    let apellidoM = (examen.coordApellidoM != null) ? examen.coordApellidoM : '';
+
+    let dataCoordinador = (gestion) ? `
+    <span><i class="fa-solid fa-location-dot me-1"></i>
+    Coordinador: ${examen.coordNombre} ${examen.coordApellidoP} ${apellidoM}
+    </span>` : '';
+
     return `
         <div class="col-12 mb-3">
           <article class="card p-3 border border-secondary-subtle shadow-sm flex-md-row align-items-md-center justify-content-between gap-3 transition-card estiloCarrera ${estiloCarrera}">   
@@ -88,6 +95,7 @@ function crearTarjeta(examen) {
                     </div>
                     
                     <div class="detalles d-flex flex-wrap gap-3 text-body-secondary">
+                        ${dataCoordinador}
                         <span><i class="fa-regular fa-calendar me-1"></i> ${fechaFormateada}</span>
                         <span><i class="fa-regular fa-clock me-1"></i> ${examen.horario} hrs</span>
                         <span><i class="fa-solid fa-location-dot me-1"></i> Salón: ${examen.edificio}${examen.salon}</span>
@@ -125,7 +133,23 @@ function accionesTarjetas() {
     }
 }
 
-function renderizarTarjetas(listaExamenes){
+function esGestion() {
+    return $.ajax({
+        url: "../controller/CoordinadorController.php",
+        method: 'GET',
+        data: { verificar: 1 },
+        dataType: 'json'
+    })
+    .then((respuesta) => {
+        return respuesta.es_gestion === true; 
+    })
+    .catch(() => {
+        return false; 
+    });
+}
+
+
+async function renderizarTarjetas(listaExamenes) {
     const contenedorRow = $('#contenedor-examenes'); 
     contenedorRow.empty();
 
@@ -135,8 +159,10 @@ function renderizarTarjetas(listaExamenes){
         return;
     }
 
+    const esGestionUsuario = await esGestion();
+
     listaExamenes.forEach(examen => {
-        const tarjetaHTML = crearTarjeta(examen);
+        const tarjetaHTML = crearTarjeta(examen, esGestionUsuario);
         contenedorRow.append(tarjetaHTML);
     });
 

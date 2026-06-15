@@ -78,9 +78,7 @@
 
         try{
             switch ($accion) {
-                
                 case 'eliminar':
-
                     $id_examen = $_POST['id_examen'] ?? '';
 
                     if (isset($_SESSION['rol']) != 'gestion') {
@@ -180,7 +178,7 @@
                         throw new Exception("ID de examen no proporcionado");
                     }
 
-                    if (!isset($_SESSION['id_gestion'])) { 
+                    if (isset($_SESSION['rol']) != 'gestion') { 
                         $examenActual = $model->getExamen($id_examen);
                     
                         $examenActual = $model->getExamen($id_examen);
@@ -197,7 +195,7 @@
                     $datos['guia'] = guardarArchivo('guia', 'guias') ?? ($_POST['guia_actual'] ?? null);
                     $datos['proyecto'] = guardarArchivo('proyecto', 'proyectos') ?? ($_POST['proyecto_actual'] ?? null);
                     
-                    if (!isset($_SESSION['id_gestion'])) {
+                    if (isset($_SESSION['rol']) != 'gestion') {
                         $datos['id_coordinador'] = $_SESSION['id_coordinador'];
                         }
                         
