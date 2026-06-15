@@ -1,7 +1,39 @@
-$(document).ready(() => {
+function cargarCarreras(){
+    $.ajax({
+        url: "../controller/CarreraController.php",
+        method: 'GET',
+        dataType: 'json',
+        success: (carreras) => {
+            const select = document.getElementById("filtro-carrera");
+            carreras.forEach(carrera => {
+                const option = document.createElement("option");
+                option.value = carrera.id_carrera;
+                option.textContent = carrera.nombre;
+                select.appendChild(option);
+            });
+        }
+    });
+}
 
-    const idCoordinador = $('#main-content').data('coordinador');
-    let examenesData = [];
+function cargarMaterias(idCarrera) {
+    const select = document.getElementById("filtro-materia");
+    select.innerHTML = '<option value="">Todas las materias</option>';
+    
+    $.ajax({
+        url: "../controller/MateriaController.php",
+        method: 'GET',
+        data: { carrera: idCarrera }, 
+        dataType: 'json',
+        success: (materias) => {
+            materias.forEach(materia => {
+                const option = document.createElement("option");
+                option.value = materia.id_materia;
+                option.textContent = materia.nombre;
+                select.appendChild(option);
+            });
+        }
+    });
+}
 
 function crearTarjeta(examen, gestion) {
     const fechaFormateada = new Date(examen.fecha + "T00:00:00").toLocaleDateString("es-MX", {
@@ -187,78 +219,182 @@ function eliminarVarios(examenes) {
                     color: '#fff'
                 });
             }
-        });
-    }
-
-    function renderExamenes(examenes) {
-        const tbody = document.getElementById('tbody-panel');
-
-        if (examenes.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" class="texto-center">No tienes exámenes registrados</td></tr>';
-            return;
+        },
+        error: (xhr, status, error) => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo establecer comunicación con el servidor.',
+                icon: 'error',
+                background: '#212529',
+                color: '#fff'
+            });
         }
+    });
+}
 
-        tbody.innerHTML = examenes.map(e => `
-            <tr>
-                <td hidden>${e.id_examen}</td>
-                <td>${e.materia}</td>
-                <td>${e.carrera}</td>
-                <td>${new Date(e.fecha + 'T00:00:00').toLocaleDateString('es-MX')}</td>
-                <td>${e.turno}</td>
-                <td>${e.horario}</td>
-                <td>Edif. ${e.edificio} — ${e.salon}</td>
-                <td>
-                    <a href="./EditarExamenView.php?id=${e.id_examen}" class="btn-editar">
-                        <i class="fa-solid fa-pen"></i> Editar
-                    </a>
-                    <button class="btn-eliminar" onclick="eliminarExamen(${e.id_examen})">
-                        <i class="fa-solid fa-trash"></i> Eliminar
-                    </button>
-                </td>
-            </tr>
-        `).join('');
-    }
+function eliminarExamen(examen) {
+    $.ajax({
+        url: "../controller/ExamenController.php",
+        method: 'POST',
+        data: { 
+            accion: 'eliminar',
+            id_examen: examen
+        },
+        dataType: 'json',
+        success: (respuesta) => {
+            if (respuesta.cod === 1) { 
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
+                
+                filtrarExamenes();
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
+            }
+        },
+        error: (xhr, status, error) => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo establecer comunicación con el servidor.',
+                icon: 'error',
+                background: '#212529',
+                color: '#fff'
+            });
+        }
+    });
+}
 
-    $('#filtro-panel-texto').on('input', function () {
-        const texto = this.value.toLowerCase();
-        const filtrados = examenesData.filter(e =>
-            e.materia.toLowerCase().includes(texto) ||
-            e.carrera.toLowerCase().includes(texto)
-        );
-        renderExamenes(filtrados);
+$(document).ready(function() {
+    $('#toggle-sidebar').on('click', function(e) {
+        e.preventDefault();
+        $('#sidebar').toggleClass('sidebar-collapsed');
     });
 
-    window.eliminarExamen = function (id_examen) {
+    cargarCarreras();
+    cargarMaterias('');
+    filtrarExamenes();
+    accionesTarjetas(); 
+
+    $("#btn-buscar").on("click", filtrarExamenes);
+    
+    $("#input-busqueda").on("keydown", function(e) {
+        if (e.key === "Enter") filtrarExamenes();
+    });
+
+    ["filtro-semestre", "filtro-materia"].forEach(id => {
+        $(`#${id}`).on("change", filtrarExamenes);
+    });
+
+    $("#filtro-carrera").on("change", function() {
+        cargarMaterias($(this).val()); 
+        filtrarExamenes(); 
+    });
+
+    $('#contenedor-examenes').on('change', '.chk-seleccionar-examen', function() {
+        const checkbox = $(this);
+        const tarjeta = checkbox.closest('article');
+
+        if (checkbox.is(':checked')) {
+            tarjeta.addClass('card-seleccionada');
+        } else {
+            tarjeta.removeClass('card-seleccionada');
+        }
+
+        const cantidadSeleccionados = $('.chk-seleccionar-examen:checked').length;
+
+        const todosLosBtnEditar = $('#contenedor-examenes').find('.btn-editar-examen');
+        const todosLosBtnEliminar = $('#contenedor-examenes').find('.btn-eliminar-examen');
+
+        if (cantidadSeleccionados > 0) {
+            todosLosBtnEditar.addClass('deshabilitado').prop('disabled', true);
+            todosLosBtnEliminar.addClass('deshabilitado').prop('disabled', true);
+        } else {
+            todosLosBtnEditar.removeClass('deshabilitado').prop('disabled', false);
+            todosLosBtnEliminar.removeClass('deshabilitado').prop('disabled', false);
+        }
+
+        accionesTarjetas(); 
+    });
+
+    $('#contenedor-examenes').on('click', '.btn-editar-examen', function() {
+        const idExamen = $(this).data('id');
         Swal.fire({
-            title: '¿Eliminar examen?',
-            text: 'Esta acción no se puede deshacer.',
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar este de forma permanente.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
         }).then((result) => {
-            if (!result.isConfirmed) return;
-
-            $.ajax({
-                url: '/public/controller/ExamenController.php',
-                method: 'POST',
-                data: { accion: 'eliminar', id_examen: id_examen },
-                dataType: 'json',
-                success: (respuesta) => {
-                    Swal.fire({
-                        title: respuesta.msj,
-                        icon: respuesta.icono,
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => cargarExamenes());
-                },
-                error: () => Swal.fire('Error', 'No se pudo eliminar el examen', 'error')
-            });
+            if (result.isConfirmed) {
+                editarExamen(idExamen);
+            }
         });
-    };
+    });
 
-    cargarExamenes();
+    $('#contenedor-examenes').on('click', '.btn-eliminar-examen', function() {
+        const idExamen = $(this).data('id');
+        const nombreMateria = $(this).data('materia');
+        const carreraMateria = $(this).data('carrera');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar "${nombreMateria} (${carreraMateria})" de forma permanente.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarExamen(idExamen);
+            }
+        });
+    });
+
+    $('#btn-eliminar-varios').on('click', function() {
+        const ids = [];
+
+        // Recolectar ids
+        $('.chk-seleccionar-examen:checked').each(function() {
+            ids.push($(this).data('id'));
+        });
+
+        if (ids.length === 0) return;
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar ${ids.length} exámenes de forma permanente.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarVarios(ids);
+            }
+        });
+    });
 
 });

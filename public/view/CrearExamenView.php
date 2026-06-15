@@ -109,10 +109,10 @@ require_once __DIR__ . '/../../includes/auth.php';
             <input type="hidden" name="id_coordinador" value="<?php echo $_SESSION['id_coordinador']; ?>">
           <?php endif; ?>
 
-          <div class="col-12 col-md-6">
-            <label for="nota">Nota <span class="text-muted">(opcional)</span></label>
-            <input type="text" id="nota" name="nota" class="form-control">
-          </div>
+                    <div class="col-12 col-md-6">
+                        <label for="horario">Horario</label>
+                        <input type="text" id="horario" name="horario" class="form-control" placeholder="ej. 8:00 a 10:00">
+                    </div>
 
                     <div class="col-12 col-md-6">
                         <label for="nota">Nota <span class="text-muted">(opcional)</span></label>

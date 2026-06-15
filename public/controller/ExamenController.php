@@ -40,15 +40,24 @@
         $coordinador = $_GET['coordinador'] ?? '';
 
         //Limpiamos datos
-        $carrera     = trim($carrera);
-        $semestre    = trim($semestre);
-        $materia     = trim($materia);
-        $texto       = trim($texto);
-        $coordinador = trim($coordinador);
+        $carrera = trim($carrera);
+        $semestre = trim($semestre);
+        $materia = trim($materia);
+        $texto = trim($texto);
+        $origen   = trim($_GET['origen'] ?? '');
+
+        $id_coordinador = "";
+        $rolActual = $_SESSION['rol'] ?? ''; 
+
+        if ($rolActual !== 'gestion' && $origen !== 'publico') {
+            if (isset($_SESSION['id_coordinador'])) {
+                $id_coordinador = $_SESSION['id_coordinador'];
+            }
+        }
 
         // Llamamos al modelo
         try {
-            $examenes = $model->getExamenes($carrera, $semestre, $materia, $texto, $coordinador);
+            $examenes = $model -> getExamenes($carrera, $semestre, $materia, $texto, $id_coordinador);
             echo json_encode($examenes);
         } catch (Exception $e) {
             error_log("Error en ExamenController: " . $e->getMessage());
@@ -59,9 +68,9 @@
 
         //METODO POST
 
-        if (!isset($_SESSION['id_coordinador'])) {
+        if (!isset($_SESSION['id_coordinador']) && !isset($_SESSION['id_gestion'])) {
             http_response_code(401);
-            echo json_encode([ "msj" => "No autorizado" ]);
+            echo json_encode([ "msj" => "No autorizado." ]);
             exit;
         }
 
@@ -72,9 +81,23 @@
             switch ($accion) {
                 case 'eliminar':
                     $id_examen = $_POST['id_examen'] ?? '';
+
+                    if (isset($_SESSION['rol']) != 'gestion') {
+                        $examenActual = $model->getExamen($id_examen);
+
+                        if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                            $respuesta['cod'] = 0;
+                            $respuesta['msj'] = "No tienes permiso para eliminar este examen.";
+                            $respuesta['icono'] = "error";
+                            echo json_encode($respuesta);
+                            exit;
+                        }
+                    }
+
                     if (empty($id_examen)) {
                         throw new Exception("ID de examen no proporcionado");
                     }
+
                     $resultado = $model->deleteExamen($id_examen);
                     if ($resultado) {
                         $respuesta['cod'] = 1;
@@ -86,6 +109,51 @@
                         $respuesta['icono'] = "error";
                     }
                     break;
+                
+                case 'eliminar-varios':
+                    if (!isset($_POST['ids']) || !is_array($_POST['ids']) || count($_POST['ids']) === 0) {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "No se proporcionaron IDs válidos.";
+                        $respuesta['icono'] = "error";
+                        echo json_encode($respuesta);
+                        exit;
+                    }
+
+                    $ids = array_map('intval', $_POST['ids']);
+                    
+                    if (isset($_SESSION['rol']) != 'gestion') {
+                        foreach ($ids as $id) {
+                            $examenActual = $model->getExamen($id);
+
+                            if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                                $respuesta['cod'] = 0;
+                                $respuesta['msj'] = "Uno o más exámenes seleccionados no te pertenecen o no tienes permiso.";
+                                $respuesta['icono'] = "error";
+                                echo json_encode($respuesta);
+                                exit;
+                            }
+                        }
+                    }
+                    
+                    $todosEliminados = true;
+                    foreach ($ids as $id) {
+                        $resultado = $model->deleteExamen($id); 
+                        
+                        if (!$resultado) {
+                            $todosEliminados = false;
+                        }
+                    }
+
+                    if ($todosEliminados) {
+                        $respuesta['cod'] = 1;
+                        $respuesta['msj'] = "Los exámenes seleccionados se eliminaron correctamente.";
+                        $respuesta['icono'] = "success";
+                    } else {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "Algunos exámenes no se pudieron eliminar.";
+                        $respuesta['icono'] = "warning";
+                    }
+                break;
 
                 case 'agregar':
 
@@ -133,7 +201,6 @@
                         }
                         
                     $resultado = $model -> updateExamen($id_examen, $datos);
-
                     if ($resultado) {
                         $respuesta['cod'] = 1;
                         $respuesta['msj'] = "Examen actualizado";

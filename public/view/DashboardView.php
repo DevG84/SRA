@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_coordinador'])) {
+if (!isset($_SESSION['id_coordinador']) || isset($_SESSION['id_gestion'])) {
     header('Location: ./LoginView.php');
     exit();
 }
@@ -31,7 +31,7 @@ if (!isset($_SESSION['id_coordinador'])) {
     include __DIR__ . '/../partials/sidebar.php'; 
 ?>
 
-<div id="main-content">
+<main>
 
     <div id="bienvenida">
         <h2>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h2>
@@ -93,7 +93,7 @@ if (!isset($_SESSION['id_coordinador'])) {
         </div>
     </div>
 
-</div>
+</main>
 
 </body>
 </html>

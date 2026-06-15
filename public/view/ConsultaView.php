@@ -46,7 +46,7 @@
       </a>
     <?php else: ?>
         <!-- Sin sesión — ir al login -->
-        <a href="./login.php" id="btn-login">
+        <a href="./LoginView.php" id="btn-login">
             <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
             <span>Acceso</span>
         </a>
@@ -140,14 +140,6 @@
 
   <!-- JQuery Examenes -->
   <script src="../assets/js/Consulta.js" ></script>
-
-  <footer>
-        <div id="footer">
-        <div class="container">
-            <p class="text-muted credit">© 2026 SRA Alumnos de ESCOM</p>
-        </div>
-        </div>
-    </footer>
 
 </body>
 </html>
