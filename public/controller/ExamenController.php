@@ -85,6 +85,7 @@
 
                     if (!isset($_SESSION['id_gestion'])) {
                         $examenActual = $model->getExamen($id_examen);
+
                         if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
                             $respuesta['cod'] = 0;
                             $respuesta['msj'] = "No tienes permiso para eliminar este examen.";
@@ -109,6 +110,51 @@
                         $respuesta['icono'] = "error";
                     }
                     break;
+                
+                case 'eliminar-varios':
+                    if (!isset($_POST['ids']) || !is_array($_POST['ids']) || count($_POST['ids']) === 0) {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "No se proporcionaron IDs válidos.";
+                        $respuesta['icono'] = "error";
+                        echo json_encode($respuesta);
+                        exit;
+                    }
+
+                    $ids = array_map('intval', $_POST['ids']);
+                    
+                    if (!isset($_SESSION['id_gestion'])) {
+                        foreach ($ids as $id) {
+                            $examenActual = $model->getExamen($id);
+
+                            if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
+                                $respuesta['cod'] = 0;
+                                $respuesta['msj'] = "Uno o más exámenes seleccionados no te pertenecen o no tienes permiso.";
+                                $respuesta['icono'] = "error";
+                                echo json_encode($respuesta);
+                                exit;
+                            }
+                        }
+                    }
+                    
+                    $todosEliminados = true;
+                    foreach ($ids as $id) {
+                        $resultado = $model->deleteExamen($id); 
+                        
+                        if (!$resultado) {
+                            $todosEliminados = false;
+                        }
+                    }
+
+                    if ($todosEliminados) {
+                        $respuesta['cod'] = 1;
+                        $respuesta['msj'] = "Los exámenes seleccionados se eliminaron correctamente.";
+                        $respuesta['icono'] = "success";
+                    } else {
+                        $respuesta['cod'] = 0;
+                        $respuesta['msj'] = "Algunos exámenes no se pudieron eliminar.";
+                        $respuesta['icono'] = "warning";
+                    }
+                break;
 
                 case 'agregar':
 

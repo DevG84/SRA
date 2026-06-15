@@ -96,10 +96,12 @@ function crearTarjeta(examen) {
             </div>
 
             <div class="acciones-examen d-flex gap-2 justify-content-end align-self-end align-self-md-center w-100 w-md-auto">
-              <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center btn-editar-examen p-2" data-id="${examen.id_examen}" title="Editar Examen">
+              <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center btn-editar-examen p-2" 
+               data-id="${examen.id_examen}" title="Editar Examen">
                 <span class="material-symbols-outlined">edit</span>
               </button>
-              <button type="button" class="btn btn-outline-danger d-flex align-items-center justify-content-center btn-eliminar-examen p-2" data-id="${examen.id_examen}" title="Eliminar Examen">
+              <button type="button" class="btn btn-outline-danger d-flex align-items-center justify-content-center btn-eliminar-examen p-2" 
+               data-id="${examen.id_examen}" data-materia="${examen.materia}" data-carrera="${examen.carrera}" title="Eliminar Examen">
                 <span class="material-symbols-outlined">delete</span>
               </button>
             </div>
@@ -141,7 +143,7 @@ function renderizarTarjetas(listaExamenes){
     accionesTarjetas();
 }
 
-function filtrarExamenes(){
+function filtrarExamenes() {
     const carrera  = document.getElementById("filtro-carrera").value;
     const semestre = document.getElementById("filtro-semestre").value;
     const materia  = document.getElementById("filtro-materia").value;
@@ -159,6 +161,78 @@ function filtrarExamenes(){
         error: () => {
             renderizarTarjetas([]);
         } 
+    });
+}
+
+function eliminarVarios(examenes) {
+    $.ajax({
+        url: "../controller/ExamenController.php",
+        method: 'POST',
+        data: { 
+            accion: 'eliminar-varios',
+            ids: examenes 
+        },
+        dataType: 'json',
+        success: (respuesta) => {
+            if (respuesta.cod === 1) { 
+                Swal.fire({
+                    title: '¡Eliminados!',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
+                
+                filtrarExamenes();
+            } else {
+                Swal.fire('Error', respuesta.msj, 'error');
+            }
+        },
+        error: (xhr, status, error) => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo establecer comunicación con el servidor.',
+                icon: 'error',
+                background: '#212529',
+                color: '#fff'
+            });
+        }
+    });
+}
+
+function eliminarExamen(examen) {
+    $.ajax({
+        url: "../controller/ExamenController.php",
+        method: 'POST',
+        data: { 
+            accion: 'eliminar',
+            id_examen: examen
+        },
+        dataType: 'json',
+        success: (respuesta) => {
+            if (respuesta.cod === 1) { 
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
+                
+                filtrarExamenes();
+            } else {
+                Swal.fire('Error', respuesta.msj, 'error');
+            }
+        },
+        error: (xhr, status, error) => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo establecer comunicación con el servidor.',
+                icon: 'error',
+                background: '#212529',
+                color: '#fff'
+            });
+        }
     });
 }
 
@@ -213,4 +287,76 @@ $(document).ready(function() {
 
         accionesTarjetas(); 
     });
+
+    $('#contenedor-examenes').on('click', '.btn-editar-examen', function() {
+        const idExamen = $(this).data('id');
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar este de forma permanente.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                editarExamen(idExamen);
+            }
+        });
+    });
+
+    $('#contenedor-examenes').on('click', '.btn-eliminar-examen', function() {
+        const idExamen = $(this).data('id');
+        const nombreMateria = $(this).data('materia');
+        const carreraMateria = $(this).data('carrera');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar "${nombreMateria} (${carreraMateria})" de forma permanente.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarExamen(idExamen);
+            }
+        });
+    });
+
+    $('#btn-eliminar-varios').on('click', function() {
+        const ids = [];
+
+        // Recolectar ids
+        $('.chk-seleccionar-examen:checked').each(function() {
+            ids.push($(this).data('id'));
+        });
+
+        if (ids.length === 0) return;
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Vas a eliminar ${ids.length} exámenes de forma permanente.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#212529',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarVarios(ids);
+            }
+        });
+    });
+
 });

@@ -98,7 +98,7 @@ require_once __DIR__ . '/../../includes/auth.php';
         <h4 class="h4 mt-3">Otros controles</h4>
         <div class="contenedor-controles-2 mt-1 mb-3">
             <section class="seccion-botones d-flex justify-content-start">
-                <button type="button" class="btn btn-warning" id="btn-crear">
+                <button onclick="window.location.href='./CrearExamenView.php';" type="button" class="btn btn-warning" id="btn-crear">
                     <span class="material-symbols-outlined btn-icon">add</span>
                     Crear nuevo examen
                 </button>
