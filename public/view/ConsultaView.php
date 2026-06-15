@@ -116,8 +116,9 @@
     </section>
 
     <!-- GRID DE CARDS -->
+    <!-- CAMBIO: #contenedor-cards ya no usa .row de Bootstrap, ahora es CSS Grid (ver consulta.css) -->
     <section id="grid-examenes">
-      <div class="row g-3" id="contenedor-cards"></div>
+      <div id="contenedor-cards"></div>
       <div id="sin-resultados">
         <i class="fa-solid fa-calendar-xmark"></i>
         <p>No se encontraron exámenes con los filtros seleccionados.</p>

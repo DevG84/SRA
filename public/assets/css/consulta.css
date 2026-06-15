@@ -193,8 +193,19 @@ main {
 ============================================== */
 #grid-examenes {
   max-width: 99%;
+  width: 100%;
   margin: 0 auto;
   padding: 0 0.75rem 2rem;
+}
+
+/* CAMBIO: CSS Grid responsive — reemplaza el .row/.col de Bootstrap.
+   Se ajusta automáticamente sin importar la cantidad de resultados
+   (1, 2 o muchos se ven bien). */
+#contenedor-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    justify-content: center;
 }
 
 /* ==============================================
@@ -207,6 +218,10 @@ main {
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.2s;
   height: 100%;
+  /* CAMBIO: evita que las cards se estiren demasiado cuando hay pocas */
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .card-examen:hover {

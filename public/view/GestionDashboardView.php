@@ -97,6 +97,8 @@ if ($_SESSION['rol'] !== 'gestion') {
           </tbody>
         </table>
       </div>
+
+      <div id="paginacion-salones"></div>
     </section>
 
     <!-- Tabla de Materias -->
@@ -129,6 +131,8 @@ if ($_SESSION['rol'] !== 'gestion') {
           </tbody>
         </table>
       </div>
+
+      <div id="paginacion-materias"></div>
     </section>
 
   </div>

@@ -75,95 +75,94 @@ function filtrarExamenes(){
     }
 
     // Crear card de examen
+    // CAMBIO: ya no se envuelve en <div class="col-12 col-md-6 col-lg-4">, ahora es CSS Grid
 
     function crearCard(examen) {
 
       return `
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="card-examen">
+        <article class="card-examen">
 
-            <!-- Header: materia y carrera -->
-            <div class="card-header-examen">
-              <p class="materia">${examen.materia}</p>
-              <p class="carrera">${examen.carrera}</p>
+          <!-- Header: materia y carrera -->
+          <div class="card-header-examen">
+            <p class="materia">${examen.materia}</p>
+            <p class="carrera">${examen.carrera}</p>
+          </div>
+
+          <!-- Body: detalles del examen -->
+          <div class="card-body-examen">
+
+            <div class="detalle-item">
+              <i class="fa-regular fa-calendar icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Fecha</p>
+                <p class="valor">${new Date(examen.fecha + "T00:00:00").toLocaleDateString("es-MX")}</p>
+              </div>
             </div>
 
-            <!-- Body: detalles del examen -->
-            <div class="card-body-examen">
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-calendar icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Fecha</p>
-                  <p class="valor">${new Date(examen.fecha + "T00:00:00").toLocaleDateString("es-MX")}</p>
-                </div>
+            <div class="detalle-item">
+              <i class="fa-regular fa-clock icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Horario</p>
+                <p class="valor">${examen.horario}</p>
               </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-clock icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Horario</p>
-                  <p class="valor">${examen.horario}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-user icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Coordinador</p>
-                  <p class="valor">${examen.coordNombre} ${examen.coordApellidoP} ${examen.coordApellidoM}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-envelope icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Correo</p>
-                  <p class="valor">${examen.coordCorreo}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-solid fa-location-dot icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Salón/Laboratorio</p>
-                  <p class="valor">${examen.edificio}${examen.salon}</p>
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-file-code icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Proyecto</p>
-                  ${examen.proyecto
-                      ? `<a href="../${examen.proyecto}" target="_blank" class="valor enlace">Ver proyecto</a>`
-                      : `<span class="valor vacio">Sin especificar</span>`
-                  }
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-regular fa-file-lines icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Guía</p>
-                  ${examen.guia
-                      ? `<a href="../${examen.guia}" target="_blank" class="valor enlace">Ver guía</a>`
-                      : `<span class="valor vacio">Sin especificar</span>`
-                  }
-                </div>
-              </div>
-
-              <div class="detalle-item">
-                <i class="fa-solid fa-circle-info icono"></i>
-                <div class="contenido">
-                  <p class="etiqueta">Nota</p>
-                  ${examen.nota ? `<span class="valor">${examen.nota}</span>` : `<span class="valor vacio">Sin especificar</span>`}
-                </div>
-              </div>
-
             </div>
-          </article>
-        </div>
+
+            <div class="detalle-item">
+              <i class="fa-regular fa-user icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Coordinador</p>
+                <p class="valor">${examen.coordNombre} ${examen.coordApellidoP} ${examen.coordApellidoM}</p>
+              </div>
+            </div>
+
+            <div class="detalle-item">
+              <i class="fa-regular fa-envelope icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Correo</p>
+                <p class="valor">${examen.coordCorreo}</p>
+              </div>
+            </div>
+
+            <div class="detalle-item">
+              <i class="fa-solid fa-location-dot icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Salón/Laboratorio</p>
+                <p class="valor">${examen.edificio}${examen.salon}</p>
+              </div>
+            </div>
+
+            <div class="detalle-item">
+              <i class="fa-regular fa-file-code icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Proyecto</p>
+                ${examen.proyecto
+                    ? `<a href="../${examen.proyecto}" target="_blank" class="valor enlace">Ver proyecto</a>`
+                    : `<span class="valor vacio">Sin especificar</span>`
+                }
+              </div>
+            </div>
+
+            <div class="detalle-item">
+              <i class="fa-regular fa-file-lines icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Guía</p>
+                ${examen.guia
+                    ? `<a href="../${examen.guia}" target="_blank" class="valor enlace">Ver guía</a>`
+                    : `<span class="valor vacio">Sin especificar</span>`
+                }
+              </div>
+            </div>
+
+            <div class="detalle-item">
+              <i class="fa-solid fa-circle-info icono"></i>
+              <div class="contenido">
+                <p class="etiqueta">Nota</p>
+                ${examen.nota ? `<span class="valor">${examen.nota}</span>` : `<span class="valor vacio">Sin especificar</span>`}
+              </div>
+            </div>
+
+          </div>
+        </article>
       `;
     }
 

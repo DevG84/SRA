@@ -168,12 +168,6 @@ function linkActivo($pagina, $paginaActiva) {
             </a>
         </li>
         <li>
-            <a href="./CrearExamenView.php" class="<?php echo linkActivo('crear', $paginaActiva); ?>">
-                <span class="material-symbols-outlined me-2">add_circle</span>
-                <span class="nav-text">Crear Examen</span>
-            </a>
-        </li>
-        <li>
             <a href="./ReportesView.php" class="<?php echo linkActivo('reportes', $paginaActiva); ?>">
                 <span class="material-symbols-outlined me-2">lab_profile</span>
                 <span class="nav-text">Reportes</span>

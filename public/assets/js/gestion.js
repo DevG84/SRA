@@ -1,8 +1,74 @@
 $(document).ready(() => {
 
+    const FILAS_POR_PAGINA = 10;
+
+    // ================================================
+    // FUNCIÓN GENÉRICA DE PAGINACIÓN
+    // ================================================
+    function renderPaginacion(contenedorId, datos, paginaActual, onCambioPagina) {
+        const totalPaginas = Math.max(1, Math.ceil(datos.length / FILAS_POR_PAGINA));
+        const contenedor = document.getElementById(contenedorId);
+
+        if (totalPaginas <= 1) {
+            contenedor.innerHTML = '';
+            return;
+        }
+
+        let botones = '';
+
+        // Botón anterior
+        botones += `<button class="btn-pagina" ${paginaActual === 1 ? 'disabled' : ''} data-pagina="${paginaActual - 1}">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>`;
+
+        // Números de página (máximo 5 visibles, centrados en la actual)
+        let inicio = Math.max(1, paginaActual - 2);
+        let fin = Math.min(totalPaginas, inicio + 4);
+        inicio = Math.max(1, fin - 4);
+
+        if (inicio > 1) {
+            botones += `<button class="btn-pagina" data-pagina="1">1</button>`;
+            if (inicio > 2) botones += `<span class="pagina-separador">...</span>`;
+        }
+
+        for (let p = inicio; p <= fin; p++) {
+            botones += `<button class="btn-pagina ${p === paginaActual ? 'activa' : ''}" data-pagina="${p}">${p}</button>`;
+        }
+
+        if (fin < totalPaginas) {
+            if (fin < totalPaginas - 1) botones += `<span class="pagina-separador">...</span>`;
+            botones += `<button class="btn-pagina" data-pagina="${totalPaginas}">${totalPaginas}</button>`;
+        }
+
+        // Botón siguiente
+        botones += `<button class="btn-pagina" ${paginaActual === totalPaginas ? 'disabled' : ''} data-pagina="${paginaActual + 1}">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>`;
+
+        // Info de resultados
+        const desde = (paginaActual - 1) * FILAS_POR_PAGINA + 1;
+        const hasta = Math.min(paginaActual * FILAS_POR_PAGINA, datos.length);
+        const info = `<span class="pagina-info">Mostrando ${desde}-${hasta} de ${datos.length}</span>`;
+
+        contenedor.innerHTML = `<div class="paginacion-controles">${info}<div class="paginacion-botones">${botones}</div></div>`;
+
+        contenedor.querySelectorAll('.btn-pagina:not([disabled])').forEach(btn => {
+            btn.addEventListener('click', () => onCambioPagina(parseInt(btn.dataset.pagina)));
+        });
+    }
+
+    function obtenerPagina(datos, pagina) {
+        const inicio = (pagina - 1) * FILAS_POR_PAGINA;
+        return datos.slice(inicio, inicio + FILAS_POR_PAGINA);
+    }
+
+    // ================================================
     // SALONES
+    // ================================================
 
     let salonesData = [];
+    let salonesFiltrados = [];
+    let paginaSalones = 1;
 
     function cargarSalones() {
         $.ajax({
@@ -11,19 +77,26 @@ $(document).ready(() => {
             dataType: 'json',
             success: (salones) => {
                 salonesData = salones;
-                renderSalones(salones);
+                salonesFiltrados = salones;
+                paginaSalones = 1;
+                renderSalones();
             },
             error: () => console.error("Error al cargar salones")
         });
     }
 
-    function renderSalones(salones) {
+    function renderSalones() {
         const tbody = document.getElementById("tbody-salones");
-        if (salones.length === 0) {
+
+        if (salonesFiltrados.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="texto-center">No hay salones registrados</td></tr>';
+            renderPaginacion('paginacion-salones', salonesFiltrados, paginaSalones, cambiarPaginaSalones);
             return;
         }
-        tbody.innerHTML = salones.map(s => `
+
+        const pagina = obtenerPagina(salonesFiltrados, paginaSalones);
+
+        tbody.innerHTML = pagina.map(s => `
             <tr>
                 <td hidden>${s.id_salon}</td>
                 <td>Salón ${s.edificio}${s.salon}</td>
@@ -38,16 +111,24 @@ $(document).ready(() => {
                 </td>
             </tr>
         `).join("");
+
+        renderPaginacion('paginacion-salones', salonesFiltrados, paginaSalones, cambiarPaginaSalones);
+    }
+
+    function cambiarPaginaSalones(nuevaPagina) {
+        paginaSalones = nuevaPagina;
+        renderSalones();
     }
 
     // Filtro por texto — salones
     document.getElementById("filtro-salon-texto")
         .addEventListener("input", function() {
             const texto = this.value.toLowerCase();
-            const filtrados = salonesData.filter(s =>
+            salonesFiltrados = salonesData.filter(s =>
                 (s.edificio + s.salon).toLowerCase().includes(texto)
             );
-            renderSalones(filtrados);
+            paginaSalones = 1;
+            renderSalones();
         });
 
     window.mostrarFormSalon = function() {
@@ -138,9 +219,13 @@ $(document).ready(() => {
         });
     }
 
-    // MATERIAs
+    // ================================================
+    // MATERIAS
+    // ================================================
 
     let materiasData = [];
+    let materiasFiltradas = [];
+    let paginaMaterias = 1;
 
     function cargarMaterias() {
         $.ajax({
@@ -150,19 +235,26 @@ $(document).ready(() => {
             dataType: 'json',
             success: (materias) => {
                 materiasData = materias;
-                renderMaterias(materias);
+                materiasFiltradas = materias;
+                paginaMaterias = 1;
+                renderMaterias();
             },
             error: () => console.error("Error al cargar materias")
         });
     }
 
-    function renderMaterias(materias) {
+    function renderMaterias() {
         const tbody = document.getElementById("tbody-materias");
-        if (materias.length === 0) {
+
+        if (materiasFiltradas.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" class="texto-center">No hay materias registradas</td></tr>';
+            renderPaginacion('paginacion-materias', materiasFiltradas, paginaMaterias, cambiarPaginaMaterias);
             return;
         }
-        tbody.innerHTML = materias.map(m => `
+
+        const pagina = obtenerPagina(materiasFiltradas, paginaMaterias);
+
+        tbody.innerHTML = pagina.map(m => `
             <tr>
                 <td hidden>${m.id_materia}</td>
                 <td>${m.nombre}</td>
@@ -179,16 +271,24 @@ $(document).ready(() => {
                 </td>
             </tr>
         `).join("");
+
+        renderPaginacion('paginacion-materias', materiasFiltradas, paginaMaterias, cambiarPaginaMaterias);
+    }
+
+    function cambiarPaginaMaterias(nuevaPagina) {
+        paginaMaterias = nuevaPagina;
+        renderMaterias();
     }
 
     // Filtro por texto — materias
     document.getElementById("filtro-materia-texto")
         .addEventListener("input", function() {
             const texto = this.value.toLowerCase();
-            const filtradas = materiasData.filter(m =>
+            materiasFiltradas = materiasData.filter(m =>
                 m.nombre.toLowerCase().includes(texto)
             );
-            renderMaterias(filtradas);
+            paginaMaterias = 1;
+            renderMaterias();
         });
 
     window.eliminarMateria = function(id) {
