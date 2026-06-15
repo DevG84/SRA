@@ -83,7 +83,7 @@
 
                     $id_examen = $_POST['id_examen'] ?? '';
 
-                    if (!isset($_SESSION['id_gestion'])) {
+                    if (isset($_SESSION['rol']) != 'gestion') {
                         $examenActual = $model->getExamen($id_examen);
 
                         if (!$examenActual || $examenActual['id_coordinador'] != $_SESSION['id_coordinador']) {
@@ -122,7 +122,7 @@
 
                     $ids = array_map('intval', $_POST['ids']);
                     
-                    if (!isset($_SESSION['id_gestion'])) {
+                    if (isset($_SESSION['rol']) != 'gestion') {
                         foreach ($ids as $id) {
                             $examenActual = $model->getExamen($id);
 

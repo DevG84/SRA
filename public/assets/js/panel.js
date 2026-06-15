@@ -185,7 +185,13 @@ function eliminarVarios(examenes) {
                 
                 filtrarExamenes();
             } else {
-                Swal.fire('Error', respuesta.msj, 'error');
+                Swal.fire({
+                    title: 'Error',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
             }
         },
         error: (xhr, status, error) => {
@@ -221,7 +227,13 @@ function eliminarExamen(examen) {
                 
                 filtrarExamenes();
             } else {
-                Swal.fire('Error', respuesta.msj, 'error');
+                Swal.fire({
+                    title: 'Error',
+                    text: respuesta.msj,
+                    icon: respuesta.icono,
+                    background: '#212529',
+                    color: '#fff'
+                });
             }
         },
         error: (xhr, status, error) => {
